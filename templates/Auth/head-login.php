@@ -1,4 +1,7 @@
-<?php 
+<?php
+    // if(isset($_SESSION['EH_email'])){
+    //     header('Location: /optimized-event-manager/event-head');
+    // }
     if(isset($_POST['login'])){
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -7,10 +10,13 @@
         
         if(mysqli_num_rows($data) == 1){
             $row = mysqli_fetch_assoc($data);
-            $_SESSION['isHeadLoggedIn'] = "true";
-            $_SESSION['id'] = $row['ID'];
-            $_SESSION['EH_name'] = $row['NAME'];
-            $_SESSION['EH_email'] = $row['EMAIL'];
+            $headUser = array(
+                'isHeadLoggedIn'=> true,
+                'id'=>$row['ID'],
+                'name'=>$row['EH_NAME'],
+                'email'=>$row['EH_EMAIL'],
+            );
+            setcookie('headUser', $headUser, time() + (86400 * 30), "/");
             echo $_SESSION['EH_email'];
             header("location: /optimized-event-manager/event-head");
         }
@@ -18,6 +24,7 @@
             header("location: /optimized-event-manager/head-login?invalidUserOrPassword");
         }
     }
+    
 
 ?>
 
@@ -108,12 +115,12 @@
                                         </div>
                                         <div class="col">
                                             <div class="text-center">
-                                                <a class="small" href="head-register.php">Create an Account!</a>
+                                                <a class="small" href="head-register">Create an Account!</a>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="text-center">
-                                                <a class="small" href="login.php">Login as user</a>
+                                                <a class="small" href="login">Login as user</a>
                                             </div>
                                         </div>
                                     </div>

@@ -31,8 +31,7 @@
     }
 ?>
 
-
-<!doctype html>
+        <!doctype html>
 <html lang="en">
 
 <head>
@@ -59,7 +58,7 @@
                         <div class="p-5">
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">
-                                    Create an account.
+                                    Create an head account.
                                 </h1>
                                 <!-- error show messae -->
                                 <?php if(isset($message)){echo '<div class="alert alert-danger">'.$message.'</div>';}
@@ -115,7 +114,7 @@
                                 <a class="small" href="forgot-password.html">Forgot Password?</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="head-login.php">Already have an account? Login!</a>
+                                <a class="small" href="head-login">Already have an account? Login!</a>
                             </div>
                         </div>
                     </div>

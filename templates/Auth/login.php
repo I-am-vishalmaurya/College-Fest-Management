@@ -7,10 +7,13 @@
         
         if(mysqli_num_rows($data) == 1){
             $row = mysqli_fetch_assoc($data);
-            $_SESSION['isLoggedIn'] = true;
-            $_SESSION['user_id'] = $row['ID'];
-            $_SESSION['user_name'] = $row['NAME'];
-            $_SESSION['user_email'] = $row['EMAIL'];
+            $userData = array(
+                'isUserLoggedIn'=> true,
+                'id' => $row['ID'],
+                'name' => $row['NAME'],
+                'email' => $row['EMAIL'],
+            );
+            setcookie('userData', json_encode($userData), time() + (86400 * 30), "/");
             header("location: /optimized-event-manager");
         }
         else{

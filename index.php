@@ -28,25 +28,66 @@ session_start();
         include 'templates/Auth/register.php';  
     }
     else if($pageName == '/head-login' || $pageName == '/head-login.php' || $pageName == '/head-login?invalidUserOrPassword'){
-        include 'Modules/includes/db.php';
-        include 'Modules/Auth/LoginManager.php';
-        include 'templates/event-heads/head-login.php';
+        // if(isset($_SESSION['isHeadLoggedIn'])){
+        //     include 'Modules/includes/db.php';
+        //     include 'Modules/Auth/LoginManager.php';
+        //     include 'templates/event-heads/event-head.php';
+        // }
+            
+            include 'Modules/includes/db.php';
+            include 'Modules/Auth/LoginManager.php';
+            include 'templates/Auth/head-login.php';
+        
+        
     }
-    else if($pageName == '/event-head' || $pageName == '/event-head.php'){
-        if(isset($_SESSION['EH_email'])){
+    else if($pageName ='/head-register' || $pageName == '/head-register.php'){
+        if(isset($_SESSION['isHeadLoggedIn'])){
             include 'Modules/includes/db.php';
             include 'templates/event-heads/event-head.php';
         }
         else{
-            echo "Please Login <a href= 'head-login.php'>Here</a>";
+            include 'Modules/includes/db.php';
+            include 'Modules/Auth/RegisterManager.php';
+            include 'templates/Auth/head-register.php';
         }
+        
+    }
+    elseif($pageName == '/dashboard' || $pageName == '/dashboard.php'){
+        include 'templates/dashboard.php';
+        // if(isset($_SESSION['isLoggedIn'])){
+        //     
+        // }
+
+    }
+//     else if($pageName == '/event-head' || $pageName == '/event-head.php'){
+//         echo $_SESSION['EH_email'];
+//         // if(isset($_SESSION['EH_email'])){
+//         //     include 'Modules/includes/db.php';
+//         //     include 'templates/event-heads/event-head.php';
+//         // }
+//         // else{
+//         //     echo "Please Login <a href= 'head-login.php'>Here</a>";
+//         // }
        
-    }
-    else if($pageName ='//head-register' || $pageName == '/head-register.php'){
-        include 'Modules/includes/db.php';
-        include 'Modules/Auth/RegisterManager.php';
-        include 'templates/event-heads/head-register.php';
-    }
+//     }
+//     else{
+//         include 'templates/404.php';
+//     }
+    
+
+//     // else if($pageName == '/tempage' || $pageName == '/tempage.php'){
+//     //     // include 'Modules/includes/db.php';
+//     //     // include 'Modules/Event/EventManager.php';
+//     //     include 'templates/event-heads/add-event.php';
+//     //     // if(isset($_SESSION['EH_email'])){
+//     //     //     include 'Modules/includes/db.php';
+//     //     //     include 'Modules/Event/EventManager.php';
+//     //     //     include 'templates/event-heads/add-event.php';
+//     //     // }
+//     //     // else{
+//     //     //     echo "here";
+//     //     // }
+//     // }
 
 
-?>
+ ?>
