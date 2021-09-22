@@ -6,8 +6,8 @@
     
 
 ?>
+<h1>Event Head</h1>
 
 <?php 
-include 'footer.php';
-
-?>
+    include 'footer.php';
+    ?>

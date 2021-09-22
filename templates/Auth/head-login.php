@@ -10,14 +10,20 @@
         
         if(mysqli_num_rows($data) == 1){
             $row = mysqli_fetch_assoc($data);
-            $headUser = array(
+            $headData = array(
                 'isHeadLoggedIn'=> true,
                 'id'=>$row['ID'],
                 'name'=>$row['EH_NAME'],
                 'email'=>$row['EH_EMAIL'],
+                'usertype'=>'EVENT_HEAD',
             );
-            setcookie('headUser', $headUser, time() + (86400 * 30), "/");
-            echo $_SESSION['EH_email'];
+            // deleting all cookies of other account if any
+            $past = time() - 3600;
+            foreach ( $_COOKIE as $key => $value )
+            {
+                setcookie( $key, $value, $past, '/' );
+            }
+            setcookie('headUser', json_encode($headData), time() + (86400 * 30 * 15), "/");
             header("location: /optimized-event-manager/event-head");
         }
         else{

@@ -7,14 +7,19 @@
         
         if(mysqli_num_rows($data) == 1){
             $row = mysqli_fetch_assoc($data);
+            
             $userData = array(
                 'isUserLoggedIn'=> true,
                 'id' => $row['ID'],
                 'name' => $row['NAME'],
                 'email' => $row['EMAIL'],
+                'usertype'=>'USER',
             );
-            setcookie('userData', json_encode($userData), time() + (86400 * 30), "/");
-            header("location: /optimized-event-manager");
+            setcookie('userData', json_encode($userData), time() + (86400 * 30 * 15), "/");
+            $userData = json_decode($_COOKIE['userData'], true);
+            echo $userData['name'];
+            //header("Refresh:0");
+            header("location: /optimized-event-manager/dashboard");
         }
         else{
             header("location: /optimized-event-manager/login?invalidUserOrPassword");
