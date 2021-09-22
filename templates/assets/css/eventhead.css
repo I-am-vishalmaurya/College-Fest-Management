@@ -90,7 +90,7 @@
   
   .header__logo {
     color: var(--title-color);
-    font-size: var(--font-medium);
+    font-size: 22px;
     display: none;
   }
   

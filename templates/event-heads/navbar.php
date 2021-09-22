@@ -1,7 +1,7 @@
 <!-- header -->
 <header class="header shadow bg-white mb-4 shadow">
     <div class="header__container ">
-        <a href="EH_index.php" class="header__logo">Eventers - Event Heads</a>
+        <a href="EH_index.php" class="header__logo">Eventers</a>
         <div class="header_search">
             <!-- <input type="search" placeholder="Search event..." class="header__input">
                 <i class='bx bx-search search__icon'></i> -->
