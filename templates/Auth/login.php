@@ -15,6 +15,11 @@
                 'email' => $row['EMAIL'],
                 'usertype'=>'USER',
             );
+            $past = time() - 3600;
+            foreach ( $_COOKIE as $key => $value )
+            {
+                setcookie( $key, $value, $past, '/' );
+            }
             setcookie('userData', json_encode($userData), time() + (86400 * 30 * 15), "/");
             $userData = json_decode($_COOKIE['userData'], true);
             echo $userData['name'];

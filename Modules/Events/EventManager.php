@@ -1,8 +1,7 @@
 <?php
-include '../Auth/LoginManager.php';
 class EventManager
 {
-    public  $error;
+    public  $errors;
     private static $instance = null;
     public static function getInstance()
     {
@@ -16,7 +15,7 @@ class EventManager
     public function __construct()
     {
         $this->db = new eventManagerDB();
-        $this->getId = new LoginManager();
+        $this->loginManager = new LoginManager();
     }
 
     public function __clone()
@@ -31,6 +30,7 @@ class EventManager
 
     public function handleThumbnail($filename, $tempname, $fileSize, $fileError)
     {
+        
         $fileExtension = explode(".", $filename);
         $fileActualExtension = strtolower(end($fileExtension));
         $allowedFileTypes = array("jpg", "jpeg", "png");
@@ -42,26 +42,26 @@ class EventManager
                     (move_uploaded_file($tempname, $fileDestination));
                     return $fileDestination;
                 } else {
-                    $this->error = "Your file is too big!";
+                    throw new Exception("File size is too big");
                 }
             } else {
-                $this->error = "There was an error uploading your file!";
+                 throw new Exception("There was an error uploading your file");
             }
         } else {
-            $this->error = "You cannot upload files of this type!";
+            throw new Exception("You cannot upload files of this type");
         }
     }
     public function addEvent($eventName, $eventHeadEmail, $eventStartDate, $EventEndDate, $eventLocation, $eventDescription, $thumbnail)
     {
-        $eventHeadId = $this->getId->getHeadID($eventHeadEmail);
-        $name = $this->db->real_escape_string($eventName);
+        $eventHeadId = $this->loginManager->getHeadID($eventHeadEmail);
+        $name = ($eventName);
         $startDate = $eventStartDate;
         $endDate = $EventEndDate;
-        $location = $this->db->real_escape_string($eventLocation);
-        $description = $this->db->real_escape_string($eventDescription);
+        $location =($eventLocation);
+        $description = ($eventDescription);
         $eventThumbnail = $thumbnail;
-
-        $query = "INSERT INTO `events`(`EVENT_HEAD_ID`, `EVENT_NAME`, `EVENT_HEAD_EMAIL`, `PLACE`, `DESCRIPTION`, `THUMBNAIL`, `EVENT_START_DATE`, `EVENT_END_DATE`) VALUES (
+        if(!empty($eventHeadId) || !empty($name) || !empty($startDate) || !empty($endDate) || !empty($location) || !empty($description) || !empty($eventThumbnail)){
+            $query = "INSERT INTO `events`(`EVENT_HEAD_ID`, `EVENT_NAME`, `EVENT_HEAD_EMAIL`, `PLACE`, `DESCRIPTION`, `THUMBNAIL`, `EVENT_START_DATE`, `EVENT_END_DATE`) VALUES (
                 '$eventHeadId',
                 '$name',
                 '$eventHeadEmail',
@@ -75,7 +75,12 @@ class EventManager
         if ($result) {
             return true;
         } else {
-            return false;
+            throw new Exception("Error: " . $this->db->error);
         }
+        }
+        else{
+            throw new Exception("All fields are required");
+        }
+        
     }
 }
