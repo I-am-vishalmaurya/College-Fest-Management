@@ -1,0 +1,116 @@
+* {
+    box-sizing: border-box;
+    font-family: "Roboto Slab", serif;
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    outline: 0;
+  }
+  
+  
+  /* Navbar CSS */
+  .nav-link {
+    font-size: 16px;
+  }
+  .navbar-nav.mr-auto ul li a.nav-link {
+    justify-content: right;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .nav-link:hover {
+    color: orange !important;
+  }
+  .dropdown-item-or:hover {
+    color: orange !important;
+  }
+  
+  .dropdown-menu-left {
+    left: 0;
+  }
+  
+  /* ---------x------------Navbar CSS---------x--------*/
+  /*   Featured events   */
+  .no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+  }
+  
+  .no-gutters > .col,
+  .no-gutters > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  
+  h5.card-title {
+    text-align: center;
+    color: #ff2400;
+  }
+  
+  .featured-event-text {
+    word-spacing: 0.3rem;
+    text-decoration: underline;
+  }
+  
+  .card {
+    border-color: #f94d00;
+  }
+  
+  .background__hero{
+    height:100vh;
+    background:url('../images/concert-phone.jpg');
+    position:relative;
+    background-size:cover;
+    background-position: center;
+    /* background-blend-mode: multiply; */
+  }
+  .background__hero .wave{
+    position: absolute;
+    bottom: 0;
+    width:100%;
+    left:0;
+  }
+  
+  .hero__card{
+    position: absolute;
+    background-color: #fd120a;
+    top:200px;
+    left: 150px;
+  
+  }
+  
+  .hero-card-header{
+    font-weight: 400;
+      font-size: 18px;
+  
+  }
+  
+  .hero-card-text{
+    font-weight:bolder;
+    font-size: 50px;
+  }
+  
+  /* Featured events styling */
+  .title-staff-picks{
+    font-weight: bold;
+    font-size: 40px;
+    color: white;
+  }
+  .title-staff-picks-black{
+    font-weight: bold;
+    font-size: 40px;
+    color: black;
+  }
+  .card--radius{
+    border-radius: 10px;
+  }
+  
+  /* Event head banner */
+  .event--head--banner{
+    min-height: 500px;
+  }
+  
+  .btn-event-head-banner{
+    font-size: 28px;
+    border-radius: 20px;
+  }
