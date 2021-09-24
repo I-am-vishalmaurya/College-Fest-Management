@@ -60,6 +60,9 @@ if ($pageName == '/' || $pageName == '/home') {
         header('Location: /optimized-event-manager/head-login');
     }
 }
+
+
+// Further routing section is for event heads
 else if (
     $pageName == '/add-subevent'
     || $pageName == '/add-subevent.php'
@@ -76,7 +79,7 @@ else if (
         header('Location: /optimized-event-manager/head-login');
     }
 }
-// Further routing section is for event heads
+
 else if ($pageName == '/head-login' || $pageName == '/head-login.php' || $pageName == '/head-login?invalidUserOrPassword') {
     $data = json_decode($_COOKIE['headUser'], true);
     if (isset($data['id']) && !empty(isset($data['id']))) {
@@ -87,7 +90,30 @@ else if ($pageName == '/head-login' || $pageName == '/head-login.php' || $pageNa
         include 'Modules/Auth/LoginManager.php';
         include 'templates/Auth/head-login.php';
     }
-} else if ($pageName = '/head-register' || $pageName == '/head-register.php') {
+}
+else if ($pageName == '/event-head' || $pageName == '/event-head.php') {
+    $data = json_decode($_COOKIE['headUser'], true);
+
+    if (isset($data['id']) && !empty(isset($data['id']) && $data['usertype'] == 'EVENT_HEAD')) {
+        include 'Modules/includes/db.php';
+        include 'templates/event-heads/event-head.php';
+    } else {
+        echo "Please Login <a href= 'head-login.php'>Here</a>";
+    }
+} 
+else if ( $pageName = '/organization' || $pageName = '/organization.php') {
+    $data = json_decode($_COOKIE['headUser'], true);
+    if (isset($data['id']) && !empty(isset($data['id']) && $data['usertype'] == 'EVENT_HEAD')) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Organization/OrganizationManager.php';
+        include 'templates/event-heads/organization.php';
+    }
+    else {
+        header('Location: /optimized-event-manager/head-login');
+    }
+}
+else if ($pageName = '/head-register' || $pageName == '/head-register.php') {
     $data = json_decode($_COOKIE['headUser'], true);
     if (isset($data['id']) && !empty(isset($data['id']))) {
         include 'Modules/includes/db.php';
@@ -97,16 +123,8 @@ else if ($pageName == '/head-login' || $pageName == '/head-login.php' || $pageNa
         include 'Modules/Auth/RegisterManager.php';
         include 'templates/Auth/head-register.php';
     }
-} else if ($pageName == '/event-head' || $pageName == '/event-head.php') {
-    $data = json_decode($_COOKIE['headUser'], true);
+} 
 
-    if (isset($data['id']) && !empty(isset($data['id']) && $data['usertype'] == 'EVENT_HEAD')) {
-        include 'Modules/includes/db.php';
-        include 'templates/event-heads/event-head.php';
-    } else {
-        echo "Please Login <a href= 'head-login.php'>Here</a>";
-    }
-}
 // Further section is for adding the events 
 
 // else if($pageName == '/manage-event' || $pageName == '/manage-event.php'){

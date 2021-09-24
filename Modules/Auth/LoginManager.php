@@ -54,5 +54,16 @@
                 return false;
             }
         }
+
+        public function getHeadInfo($id){
+            $query = $this->db->query("SELECT ORG_ID, EH_NAME, ORG_STATUS FROM event_heads WHERE ID = '$id'");
+            if($query){
+                $row = $query->fetch_assoc();
+                return $row;
+            }
+            else{
+                return false;
+            }
+        }
     }
 ?>

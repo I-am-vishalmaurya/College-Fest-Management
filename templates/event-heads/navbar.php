@@ -79,6 +79,7 @@
                     <div class="nav__dropdown__content">
                         <a href="viewProfile.php" class="nav__dropdown__item">Account</a>
                         <a href="forgot-password.php" class="nav__dropdown__item">Password</a>
+                        <a href="organization" class="nav__dropdown__item">Organization</a>
 
                     </div>
                 </div>
