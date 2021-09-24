@@ -18,7 +18,7 @@ if (isset($_POST['addEvent'])) {
 
   $addEvent = new EventManager();
   try{
-    $getDestiniation = $addEvent->handleThumbnail($filename, $tempname, $fileSize, $fileError);
+    $getDestiniation = $addEvent->handleThumbnail($filename, $tempname, $fileSize, $fileError, "events");
   }
   catch(Exception $e){
     $error = $e->getMessage();

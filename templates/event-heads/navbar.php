@@ -108,7 +108,7 @@
                 <i class='bx bx-plus-medical nav__box_icons'></i>
                 <span class="nav__name">Host an event</span>
             </a>
-            <a href="manage-event" class="nav__links">
+            <a href="add-subevent" class="nav__links">
                 <i class='bx bx-edit-alt nav__box_icons'></i>
                 <span class="nav__name">Manage events
                 </span>

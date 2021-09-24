@@ -28,7 +28,7 @@ class EventManager
         trigger_error('Deserializing not allowed.', E_USER_ERROR);
     }
 
-    public function handleThumbnail($filename, $tempname, $fileSize, $fileError)
+    public function handleThumbnail($filename, $tempname, $fileSize, $fileError,$savedDestination)
     {
         
         $fileExtension = explode(".", $filename);
@@ -38,7 +38,7 @@ class EventManager
             if ($fileError === 0) {
                 if ($fileSize <= 5242880) {
                     $newfileName = uniqid('', true) . "." . $fileActualExtension;
-                    $fileDestination = 'global/eventThumbnails/events/' . $newfileName;
+                    $fileDestination = 'global/eventThumbnails/'. $savedDestination .'/' . $newfileName;
                     (move_uploaded_file($tempname, $fileDestination));
                     return $fileDestination;
                 } else {
@@ -48,7 +48,7 @@ class EventManager
                  throw new Exception("There was an error uploading your file");
             }
         } else {
-            throw new Exception("You cannot upload files of this type");
+            throw new Exception($fileActualExtension . " is not a valid file type");
         }
     }
     public function addEvent($eventName, $eventHeadEmail, $eventStartDate, $EventEndDate, $eventLocation, $eventDescription, $thumbnail)
@@ -82,5 +82,73 @@ class EventManager
             throw new Exception("All fields are required");
         }
         
+    }
+
+    public function addSubEvents($eventName,$email, $category,$subEventHeadID, $subEventName, $subEventDescription, $subEventDateTime, $subEventLocation, $subEventThumbnail){
+        try{
+            $arrayeventID = $this->getEventID($eventName, $email);
+            $eventID = $arrayeventID['EVENT_ID'];
+        }
+        catch(Exception $e){
+            $errors = $e->getMessage();
+        }
+        $query = "INSERT INTO `subevents`(`EVENT_ID`, `SUB_EVENT_NAME`, `CATEGORY`,`SUB_EVENT_HEAD`,`SUB_EVENT_DESCRIPTION`, `THUMBNAIL`, `SUB_EVENT_DATE`, `SUB_EVENT_LOCATION`) VALUES (
+            '$eventID',
+            '$subEventName',
+            '$category',
+            '$subEventHeadID',
+            '$subEventDescription',
+            '$subEventThumbnail',
+            '$subEventDateTime',
+            '$subEventLocation'
+            )";
+        $result = $this->db->query($query);
+        if ($result) {
+            return true;
+        }
+        else{
+            throw new Exception("Error: " . mysqli_error($this->db)
+            //$subEventName,
+            // $category,
+            // $subEventHeadID,
+            // $subEventDescription,
+            // $subEventThumbnail,
+            // $subEventDateTime,
+            // $subEventLocation
+        );
+        }
+
+
+    }
+
+    public function getEvents($email){
+        $query = "SELECT EVENT_NAME FROM `events` WHERE EVENT_HEAD_EMAIL = '$email'";
+        if($result = $this->db->query($query)){
+            $events = array();
+            while($row = $result->fetch_assoc()){
+                $events[] = $row;
+
+            }
+            return $events;
+        }
+        else{
+            throw new Exception("Error: " . $this->db->error);
+        }
+       
+    }
+
+    public function getSubEventHeads($organization, $heademail, $eventName){
+        
+    }
+
+    public function getEventID($eventName, $email){
+        $query = "SELECT EVENT_ID FROM `events` WHERE EVENT_NAME = '$eventName' AND EVENT_HEAD_EMAIL = '$email'";
+        if($result = $this->db->query($query)){
+            $eventID = $result->fetch_assoc();
+            return $eventID;
+        }
+        else{
+            throw new Exception("Error: " . $this->db->error);
+        }
     }
 }

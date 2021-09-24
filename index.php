@@ -60,6 +60,22 @@ if ($pageName == '/' || $pageName == '/home') {
         header('Location: /optimized-event-manager/head-login');
     }
 }
+else if (
+    $pageName == '/add-subevent'
+    || $pageName == '/add-subevent.php'
+    || $pageName == '/add-subevent?eventAddedSuccessfully'
+    || $pageName == '/add-subevent?eventAddedFailed'
+) {
+    $data = json_decode($_COOKIE['headUser'], true);
+    if (isset($data['id']) && !empty(isset($data['id']) && $data['usertype'] == 'EVENT_HEAD')) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/EventManager.php';
+        include 'templates/event-heads/add-subevents.php';
+    } else {
+        header('Location: /optimized-event-manager/head-login');
+    }
+}
 // Further routing section is for event heads
 else if ($pageName == '/head-login' || $pageName == '/head-login.php' || $pageName == '/head-login?invalidUserOrPassword') {
     $data = json_decode($_COOKIE['headUser'], true);
