@@ -1,5 +1,5 @@
 <?php 
-    class LoginManager{
+class LoginManager{
         private static $instance = null;
         public static function getInstance(){
             if(!self::$instance instanceof self){

@@ -121,8 +121,60 @@ class EventManager
 
     }
 
+    public function getSubEventDetails(){
+        $query = "SELECT * FROM `subevents`";
+        $result = $this->db->query($query);
+        if ($result) {
+            return $result;
+        }
+        else{
+            throw new Exception("Error: " . mysqli_error($this->db));
+        }
+    }
+
+    public function filterSubEvents($tagName){
+        try{
+            $tagID = $this->getTagID($tagName);
+            $query = "SELECT * FROM `tags` INNER JOIN subevents ON tags.ID = '$tagID' = subevents.CATEGORY = '$tagID'";
+            $result = $this->db->query($query);
+            if ($result) {
+                return $result;
+            }
+            else{
+                throw new Exception("Error: " . mysqli_error($this->db));
+            }
+        }
+        catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+        
+    }
+
+    public function getTags(){
+        $query = "SELECT * FROM `tags`";
+        $result = $this->db->query($query);
+        if ($result) {
+            return $result;
+        }
+        else{
+            throw new Exception("Error: " . mysqli_error($this->db));
+        }
+    }
+
+    public function getTagID($tagName){
+        $query = "SELECT * FROM `tags` WHERE `TAG_NAME` = '$tagName'";
+        $result = $this->db->query($query);
+        if ($result) {
+            $row = $result->fetch_assoc();
+            return $row['ID'];
+        }
+        else{
+            throw new Exception("Error: " . mysqli_error($this->db));
+        }
+    }
+
     public function getEvents($email){
-        $query = "SELECT EVENT_NAME FROM `events` WHERE EVENT_HEAD_EMAIL = '$email'";
+        $query = "SELECT EVENT_NAME, EVENT_ID FROM `events` WHERE EVENT_HEAD_EMAIL = '$email'";
         if($result = $this->db->query($query)){
             $events = array();
             while($row = $result->fetch_assoc()){

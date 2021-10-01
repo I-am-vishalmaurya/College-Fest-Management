@@ -7,10 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    404
-    <a href="templates/home.php">Home</a>
-<a href="templates/404.php">404</a>
-<a href="templates/Auth/register.php">Resgister</a>
+    <h1>404</h1>
 
 
 </body>

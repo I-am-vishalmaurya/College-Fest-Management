@@ -1,0 +1,15 @@
+{
+    "name": "visha/optimized-event-manager",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vishal Maurya",
+            "email": "vishalmaurya3112@gmail.com"
+        }
+    ],
+    "require": {}
+}

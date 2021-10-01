@@ -1,5 +1,4 @@
 <?php 
-
     class eventManagerDB extends mysqli{
         private static $instance = null; 
         private $user = "root";
@@ -43,6 +42,3 @@
 
        
     }
-
-    
-?>

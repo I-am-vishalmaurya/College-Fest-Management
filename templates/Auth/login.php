@@ -1,39 +1,3 @@
-<?php 
-    if(isset($_POST['login'])){
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $user = new LoginManager();
-        $data = $user->login($email, $password);
-        
-        if(mysqli_num_rows($data) == 1){
-            $row = mysqli_fetch_assoc($data);
-            
-            $userData = array(
-                'isUserLoggedIn'=> true,
-                'id' => $row['ID'],
-                'name' => $row['NAME'],
-                'email' => $row['EMAIL'],
-                'usertype'=>'USER',
-            );
-            $past = time() - 3600;
-            foreach ( $_COOKIE as $key => $value )
-            {
-                setcookie( $key, $value, $past, '/' );
-            }
-            setcookie('userData', json_encode($userData), time() + (86400 * 30 * 15), "/");
-            $userData = json_decode($_COOKIE['userData'], true);
-            echo $userData['name'];
-            //header("Refresh:0");
-            header("location: /optimized-event-manager/dashboard");
-        }
-        else{
-            header("location: /optimized-event-manager/login?invalidUserOrPassword");
-        }
-    }
-
-?>
-
-
 <!doctype html>
 <html lang="en">
 
@@ -120,12 +84,12 @@
                                         </div>
                                         <div class="col">
                                             <div class="text-center">
-                                                <a class="small" href="register.php">Create an Account!</a>
+                                                <a class="small" href="register">Create an Account!</a>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="text-center">
-                                                <a class="small" href="head-login.php">Login as event head</a>
+                                                <a class="small" href="head-login">Login as event head</a>
                                             </div>
                                         </div>
                                     </div>

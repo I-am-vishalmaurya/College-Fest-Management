@@ -1,156 +1,196 @@
-<?php
-
-session_start();
-//Block warning from php
-error_reporting(E_ERROR | E_PARSE);
-$path = $_SERVER['REQUEST_URI'];
-$pageName = str_replace('optimized-event-manager/', '', $path);
+<?php 
 
 
-if ($pageName == '/' || $pageName == '/home') {
-    include 'templates/home.php';
-} else if ($pageName == '/index' || $pageName == '/index.php') {
-    include 'templates/home.php';
-} else if ($pageName == '/events' || $pageName == '/event.php') {
-    include 'templates/events.php';
-} else if ($pageName == '/about' || $pageName == '/about.php') {
-    include 'templates/about.php';
-} else if ($pageName == '/contact' || $pageName == '/contact.php') {
-    include 'templates/contact.php';
-} else if ($pageName == '/login' || $pageName == '/login.php' || $pageName == '/login?invalidUserOrPassword') {
-    //allow user if only his cookie is saved 
+
+
+require_once __DIR__ . "./vendor/autoload.php";
+
+use App\Handler\Contact;
+use App\Router;
+
+$router = new Router();
+
+$router -> get("/", function(){
+    require_once 'templates/home.php';
+});
+$router -> get("/events", function(){
+    include 'Modules/includes/db.php';
+    include 'Modules/Auth/LoginManager.php';
+    include 'Modules/Events/EventManager.php';
+
+    require_once 'templates/events.php';
+});
+
+$router -> get("/about", function(array $params = []){
+    echo "About Page";
+    if(!empty($params['username'])){
+        echo '<h1> Hello' . $params['username'] . '</h1>';
+    }
+    else{
+        echo "Hello";
+    }
+    
+});
+// ************************* Start User Functionality *********************************
+// User Login Routing
+$router -> get("/login", function(array $params = []){
+    if(!empty($params['status'])){
+        if($params['status'] === 'userAlreadyExist'){
+            echo "User Already Exists";
+            require_once 'templates/Auth/login.php';
+        }
+        elseif($params['status'] === 'registrationSuccessful'){
+            echo "Registration Successful Please Login.";
+            require_once 'templates/Auth/login.php';
+        }
+    }
+    else{
+        require_once 'templates/Auth/login.php';
+    }
+    
+});
+
+$router -> post("/login", function(){
+    include 'Modules/includes/db.php';
+    include 'Modules/Auth/LoginManager.php';
+    include 'src/Authentication/login.php';
+});
+
+$router -> get("/dashboard", function(){
     $userData = json_decode($_COOKIE['userData'], true);
     if (isset($userData['id']) && !empty(isset($userData['id']))) {
-        header('Location: /optimized-event-manager/dashboard');
-    } else {
-        include 'Modules/includes/db.php';
-        include 'Modules/Auth/LoginManager.php';
-        include 'templates/Auth/login.php';
+        require_once 'templates/dashboard.php';
     }
-} else if ($pageName == '/register' || $pageName == '/register.php') {
-    $userData = json_decode($_COOKIE['userData'], true);
-    if (isset($userData['id']) && !empty(isset($userData['id']))) {
-        header('Location: /optimized-event-manager/dashboard');
-    } else {
-        include 'Modules/includes/db.php';
-        include 'Modules/Auth/RegisterManager.php';
-        include 'templates/Auth/register.php';
+    else{
+        header("location: /login");
     }
-} else if ($pageName == '/dashboard' || $pageName == '/dashboard.php') {
-    $userData = json_decode($_COOKIE['userData'], true);
-    if (isset($userData['id']) && !empty(isset($userData['id']) && $userData['usertype'] == 'USER')) {
-        include 'Modules/includes/db.php';
-        include 'templates/dashboard.php';
-    } else {
-        header('Location: /optimized-event-manager/login');
-    }
-} else if (
-    $pageName == '/add-event'
-    || $pageName == '/add-event.php'
-    || $pageName == '/add-event?eventAddedSuccessfully'
-    || $pageName == '/add-event?eventAddedFailed'
-) {
-    $data = json_decode($_COOKIE['headUser'], true);
-    if (isset($data['id']) && !empty(isset($data['id']) && $data['usertype'] == 'EVENT_HEAD')) {
-        include 'Modules/includes/db.php';
-        include 'Modules/Auth/LoginManager.php';
-        include 'Modules/Events/EventManager.php';
-        include 'templates/event-heads/add-event.php';
-    } else {
-        header('Location: /optimized-event-manager/head-login');
-    }
-}
+});
+// User Register Routing
+$router -> get("/register", function(){
+    include 'templates/Auth/register.php';
+});
 
+$router -> post("/register", function(){
+    include 'Modules/includes/db.php';
+    include 'Modules/Auth/RegisterManager.php';
+    include 'src/Authentication/register.php';
+});
 
-// Further routing section is for event heads
-else if (
-    $pageName == '/add-subevent'
-    || $pageName == '/add-subevent.php'
-    || $pageName == '/add-subevent?eventAddedSuccessfully'
-    || $pageName == '/add-subevent?eventAddedFailed'
-) {
-    $data = json_decode($_COOKIE['headUser'], true);
-    if (isset($data['id']) && !empty(isset($data['id']) && $data['usertype'] == 'EVENT_HEAD')) {
-        include 'Modules/includes/db.php';
-        include 'Modules/Auth/LoginManager.php';
-        include 'Modules/Events/EventManager.php';
-        include 'templates/event-heads/add-subevents.php';
-    } else {
-        header('Location: /optimized-event-manager/head-login');
+// *********************** User functionality Done **********************************
+
+// ************************ Event Head Functionality Start **************************
+// Head Authentications
+$router -> get('/head-login', function(){
+    if(!empty($params['status'])){
+        if($params['status'] === 'userAlreadyExist'){
+            echo "Head Already Exists";
+            require_once 'templates/Auth/head-login.php';
+        }
+        elseif($params['status'] === 'registrationSuccessful'){
+            echo "Registration Successful Please Login.";
+            require_once 'templates/Auth/head-login.php';
+        }
     }
-}
+    else{
+        require_once 'templates/Auth/head-login.php';
+    }
+    
+});
 
-else if ($pageName == '/head-login' || $pageName == '/head-login.php' || $pageName == '/head-login?invalidUserOrPassword') {
+$router -> post('/head-login', function(){
+    include 'Modules/includes/db.php';
+    include 'Modules/Auth/LoginManager.php';
+    include 'src/Authentication/head-login.php';
+});
+
+$router -> get('/event-head', function(){
     $data = json_decode($_COOKIE['headUser'], true);
     if (isset($data['id']) && !empty(isset($data['id']))) {
-        include 'Modules/includes/db.php';
-        include 'templates/event-heads/event-head.php';
-    } else {
-        include 'Modules/includes/db.php';
-        include 'Modules/Auth/LoginManager.php';
-        include 'templates/Auth/head-login.php';
+        require_once 'templates/event-heads/event-head.php';
     }
-}
-else if ($pageName == '/event-head' || $pageName == '/event-head.php') {
-    $data = json_decode($_COOKIE['headUser'], true);
+    else{
+        header("location: /head-login");
+    }
+});
 
-    if (isset($data['id']) && !empty(isset($data['id']) && $data['usertype'] == 'EVENT_HEAD')) {
-        include 'Modules/includes/db.php';
-        include 'templates/event-heads/event-head.php';
-    } else {
-        echo "Please Login <a href= 'head-login.php'>Here</a>";
-    }
-} 
-else if ( $pageName = '/organization' || $pageName = '/organization.php') {
+$router -> get('/head-register', function(){
+    require_once 'templates/Auth/head-register.php';
+});
+
+$router -> post('/head-register', function(){
+    include 'Modules/includes/db.php';
+    include 'Modules/Auth/RegisterManager.php';
+    require_once 'src/Authentication/head-register.php';
+});
+
+// Head Profiles
+$router -> get('/profile', function(){
     $data = json_decode($_COOKIE['headUser'], true);
-    if (isset($data['id']) && !empty(isset($data['id']) && $data['usertype'] == 'EVENT_HEAD')) {
+    if (isset($data['id']) && !empty(isset($data['id']))) {
         include 'Modules/includes/db.php';
         include 'Modules/Auth/LoginManager.php';
         include 'Modules/Organization/OrganizationManager.php';
-        include 'templates/event-heads/organization.php';
+        require_once 'templates/event-heads/viewProfile.php';
     }
-    else {
-        header('Location: /optimized-event-manager/head-login');
+    else{
+        header("location: /head-login");
     }
-}
-else if ($pageName = '/head-register' || $pageName == '/head-register.php') {
+});
+
+// Head Organization
+$router -> get('/organization', function(array $params = []){
     $data = json_decode($_COOKIE['headUser'], true);
-    if (isset($data['id']) && !empty(isset($data['id']))) {
-        include 'Modules/includes/db.php';
-        include 'templates/event-heads/event-head.php';
-    } else {
-        include 'Modules/includes/db.php';
-        include 'Modules/Auth/RegisterManager.php';
-        include 'templates/Auth/head-register.php';
+    if (isset($data['id']) && !empty(isset($data['id']) && $data['usertype'] == 'EVENT_HEAD')) {
+        if(!empty($params['status'])){
+            if($params['status'] === 'sent'){
+                echo "Invitation Sent";
+                require_once 'templates/event-heads/organization';
+            }
+            elseif($params['status'] === 'error'){
+                echo "Invitation Not Sent";
+                require_once 'templates/event-heads/organization.php';
+            }
+            elseif($params['status'] === 'joined'){
+                echo "Joined Successfully";
+                require_once 'templates/event-heads/organization.php';
+            }
+            elseif($params['status'] === 'notjoined'){
+                echo "Not Joined";
+                require_once 'templates/event-heads/organization.php';
+            }
+            elseif($params['status'] === 'orgadded'){
+                echo "Organization Added";
+                require_once 'templates/event-heads/organization.php';
+            }
+            elseif($params['status'] === 'orgaddfailed'){
+                echo "Organization Add Failed";
+                require_once 'templates/event-heads/organization.php';
+            }
+        }
+        else{
+            require_once 'templates/event-heads/organization.php';
+        }
+        
     }
-} 
+    else{
+        header("location: /head-login");
+    }
+});
 
-// Further section is for adding the events 
+$router -> post('/organization', function(){
+    include 'Modules/includes/db.php';
+    include 'Modules/Auth/LoginManager.php';
+    include 'Modules/Organization/OrganizationManager.php';
+    require_once 'src/Organizations/organization.php';
+});
+// ************************ Event Head Functionality Done *******************************
+// $router -> get("/contact", Contact::class. '::execute');
 
-// else if($pageName == '/manage-event' || $pageName == '/manage-event.php'){
-//     $data = json_decode($_COOKIE['headUser'], true);
-//     if (isset($data['id']) && !empty(isset($data['id']))) {
-//         include 'Modules/includes/db.php';
-//         include 'templates/event-heads/manage-event.php';
-//     } else {
-//         echo "Please Login <a href= 'head-login.php'>Here</a>";
-//     }
-// }
-else {
-    include 'templates/404.php';
-}
-    
+// $router -> post("/contact", function($params){
+//     var_dump($params);
+// });
+$router -> addNotFoundHandler(function(){
+    require_once 'templates/404.php';
+});
 
-//     // else if($pageName == '/tempage' || $pageName == '/tempage.php'){
-//     //     // include 'Modules/includes/db.php';
-//     //     // include 'Modules/Event/EventManager.php';
-//     //     include 'templates/event-heads/add-event.php';
-//     //     // if(isset($_SESSION['EH_email'])){
-//     //     //     include 'Modules/includes/db.php';
-//     //     //     include 'Modules/Event/EventManager.php';
-//     //     //     include 'templates/event-heads/add-event.php';
-//     //     // }
-//     //     // else{
-//     //     //     echo "here";
-//     //     // }
-//     // }
+$router->run();

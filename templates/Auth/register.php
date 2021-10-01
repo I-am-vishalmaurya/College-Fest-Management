@@ -1,34 +1,4 @@
-<?php 
-    $message = null;
-    $error = null;
-    $registerManager = new RegisterManager();
-    if(isset($_POST['register'])){
-        
-        $field = array(
-            'name' => $_POST['name'],
-            'email' => $_POST['email'],
-            'password' => $_POST['password'],
-            'confirm-password' => $_POST['confirm-password'],
-        );
-        if($field['password'] == $field['confirm-password']){
-            if($registerManager->required_validation($field)){
-                if($registerManager->userEmailExist($field['email'])){
-                    $error = 'Email already exist';
-                }
-                elseif($registerManager->registerUser($field['name'], $field['email'], $field['password'], $field['confirm-password'])){
-                    $error = "Success";
-                }
-            }
-            else{
-                $message = $registerManager->errors;
-            }
-        }   
-        else{
-            $error = "Password not same";
-        }
 
-    }
-?>
 
 
 <!doctype html>
@@ -62,7 +32,7 @@
                                 </h1>
                                 <!-- error show messae -->
                                 <?php if(isset($message)){echo '<div class="alert alert-danger">'.$message.'</div>';}
-                                if($error){
+                                if(isset($error)){
                                     echo '<div class="alert alert-danger">'.$error.'</div>';
                                 } ?>
                             </div>

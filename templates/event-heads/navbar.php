@@ -77,8 +77,8 @@
                 </a>
                 <div class="nav__dropdown__collapse bg-white">
                     <div class="nav__dropdown__content">
-                        <a href="viewProfile.php" class="nav__dropdown__item">Account</a>
-                        <a href="forgot-password.php" class="nav__dropdown__item">Password</a>
+                        <a href="profile" class="nav__dropdown__item">Account</a>
+                        
                         <a href="organization" class="nav__dropdown__item">Organization</a>
 
                     </div>
@@ -97,11 +97,11 @@
                 <h3 class="nav__subtitle">Events</h3>
 
             </div>
-            <a href="index.php" class="nav__links">
+            <!-- <a href="index.php" class="nav__links">
                 <i class='bx bx-compass nav__box_icons'></i>
                 <span class="nav__name">Explore</span>
-            </a>
-            <a href="allEvents.php" class="nav__links">
+            </a> -->
+            <a href="events" class="nav__links">
                 <i class='bx bx-purchase-tag-alt nav__box_icons'></i>
                 <span class="nav__name">All events</span>
             </a>

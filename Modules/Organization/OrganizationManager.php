@@ -46,14 +46,13 @@
             }
         }
 
-        public function inviteToOrganization($headEmail, $toInviteEmail){
+        public function inviteToOrganization($eventHeadID, $toInviteEmail){
             $checkInvitedHeadEmailExist = $this->loginManager->getHeadID($toInviteEmail);
-            $eventHeadID = $this->loginManager->getHeadID($headEmail);
             try{
                 $joiningOrganizationName = $this->getOrganizationHeadDetails($eventHeadID);
                 $org_id = $this->getOrganizationID($joiningOrganizationName['ORG_NAME']);
                 if(isset($checkInvitedHeadEmailExist)){
-                    if($this->getHeadDetailNotInOrganization($toInviteEmail)){
+                    if(!$this->getHeadDetailNotInOrganization($toInviteEmail)){
                         if(isset($org_id)){
                             $query = "UPDATE `event_heads` SET `ORG_ID` = '$org_id', `ORG_STATUS` = 'PENDING' WHERE `event_heads`.`ID` = '$checkInvitedHeadEmailExist'" ;
                             if($this->db->query($query)){
@@ -100,6 +99,18 @@
             }
         }
 
+        public function getMemberOfOrganization($headID){
+            $org_id = $this->getOrganizationID($this->getOrganizationHeadDetails($headID)['ORG_ID']);
+            $query = "SELECT EH_NAME AS NAME, ID AS HEAD_ID FROM `event_heads` INNER JOIN organizations WHERE event_heads.ORG_STATUS = 'JOINED' AND event_heads.ORG_ID = '$org_id' = organizations.ORG_ID = '$org_id'";
+            $result = $this->db->query($query);
+            if($result){
+                return $result->fetch_all(MYSQLI_ASSOC);
+            }
+            else{
+                throw new Exception("Error: " . $this->db->error);
+            }
+        }
+
         public function getOrganizationID($orgName){
             $query = "SELECT `ORG_ID` FROM `organizations` WHERE `ORG_NAME` = '$orgName'";
             $result = $this->db->query($query);
@@ -133,7 +144,7 @@
             $query = "SELECT * FROM event_heads WHERE event_heads.ORG_STATUS = 'EMPTY' AND event_heads.EH_EMAIL = '$email'";
             $result = $this->db->query($query);
             if($result){
-                return $result->fetch_assoc();
+                return true;
             }else{
                 return false;
             }
