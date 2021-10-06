@@ -39,9 +39,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             try{
                 $result = $orgManager->inviteToOrganization($eventHeadID, $invitedHeadEmail);
                 if($result){
+                    
                     header("location: organization?status=sent");
                 }
                 else{
+                    
                     header("location: organization?status=error");
                 }
                 echo "here";
@@ -70,4 +72,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     else{
         echo "No button clicked";
     }
+}
+else{
+    echo "Not Post";
 }

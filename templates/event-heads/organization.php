@@ -1,5 +1,18 @@
 
+
 <?php
+$orgManager = new OrganizationManager();
+$headID = $data['id'];
+try{
+    $result = $orgManager->getOrganizationHeadDetails($headID);
+    if($result){
+        $orgHeadDetails = $result;
+    }
+}
+catch(Exception $e){
+    $errorWhileJoining = $e->getMessage();
+}
+
 $title = "Organization - Eventers";
 $bodyColor = 'bg-white';
 include 'templates/event-heads/header.php';
@@ -24,7 +37,7 @@ include 'templates/event-heads/navbar.php';
                     <form method="post">
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email of person you want to invite.">
+                            <input type="email" class="form-control" name="email" placeholder="Enter email of person you want to invite.">
                         </div>
                         <button type="submit" name="inviteHeads" class="btn btn-primary btn-sm w-25">Invite</button>
                     </form>

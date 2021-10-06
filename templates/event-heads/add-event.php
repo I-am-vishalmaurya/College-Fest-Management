@@ -75,6 +75,7 @@ if (isset($error)) {
 
   <fieldset>
     <legend>Hosted by</legend>
+    <form method="post" enctype="multipart/form-data">
     <div class="form-group row">
       <label for="staticName" class="col-sm-2 col-form-label">Name</label>
       <div class="col-sm-10">
@@ -89,7 +90,7 @@ if (isset($error)) {
         <input type="text" readonly="" class="form-control-plaintext" id="staticPhone" value=<?php echo "9076260427" ?>>
       </div>
     </div>
-    <form method="post" enctype="multipart/form-data">
+    
       <div class="form-group">
         <label for="event_name" class="form-label mt-4">Event Name</label>
         <input type="text" name="eventName" class="form-control" aria-describedby="eventnameHelp" placeholder="Enter event name...">

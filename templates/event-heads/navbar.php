@@ -105,7 +105,7 @@
                 <i class='bx bx-purchase-tag-alt nav__box_icons'></i>
                 <span class="nav__name">All events</span>
             </a>
-            <a href="add-event" class="nav__links">
+            <a href="host-event" class="nav__links">
                 <i class='bx bx-plus-medical nav__box_icons'></i>
                 <span class="nav__name">Host an event</span>
             </a>

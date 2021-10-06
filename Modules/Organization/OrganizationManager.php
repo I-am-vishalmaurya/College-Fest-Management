@@ -116,7 +116,7 @@
             $result = $this->db->query($query);
             if($result){
                 $row = $result->fetch_assoc();
-                return $row['ORG_ID'];
+                return $row;
             }
             else{
                 throw new Exception("Error: Organization ID not found");
