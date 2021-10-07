@@ -1,22 +1,19 @@
-<?php 
+<?php
 $eventdetails = new EventManager();
 $getOrgMembers = new OrganizationManager();
 $head_email_id = $data['email'];
 $headID = $data['id'];
 try {
     $eventNames = $eventdetails->getEvents($head_email_id);
-    
 } catch (Exception $e) {
     $error = $e->getMessage();
 }
 
 // Get the Sub Event Heads working under Head Organization
-try{
+try {
     $members = $getOrgMembers->getMemberOfOrganization($headID);
     $members = array_unique($members, SORT_REGULAR);
-     
-}
-catch(Exception $e){
+} catch (Exception $e) {
     $MemberError = $e->getMessage();
 }
 
@@ -60,22 +57,21 @@ if (isset($error)) {
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="POST" enctype="multipart/form-data">
                         <div class="form-group row border-0">
                             <div class="col-sm-6 mb-3 mb-sm-0">
 
                                 <select name="event_name" class="form-select" placeholder="Select event name" id="eventNameDD">
                                     <?php
-                                    if(isset($eventNames)){
+                                    if (isset($eventNames)) {
                                         foreach ($eventNames as $event) {
                                             echo '<option value="' . $event['EVENT_ID'] . '">' . $event['EVENT_NAME'] . '</option>';
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         echo '<option value="">Add the events</option>';
                                     }
-                                    
-                                
+
+
                                     ?>
 
                                 </select>
@@ -99,13 +95,12 @@ if (isset($error)) {
                         <div class="form-group row">
                             <div class="col-sm-12 mb-3 mb-sm-0">
                                 <select name="sub_event_head_id" class="form-select" placeholder="Select event head" id="subeventheadDD">
-                                    <option value=""><?php if(isset($MemberError)){
-                                            echo $MemberError;
-                                    }
-                                    else{
-                                        echo "Select event head";
-                                    }
-                                     ?></option>
+                                    <option value=""><?php if (isset($MemberError)) {
+                                                            echo $MemberError;
+                                                        } else {
+                                                            echo "Select event head";
+                                                        }
+                                                        ?></option>
                                     <?php
                                     // do{
                                     //     echo '<option value="' . $member['ID'] . '">' . $member['EH_NAME'] . '</option>';
@@ -113,8 +108,8 @@ if (isset($error)) {
                                     // while($member = mysqli_fetch_assoc($members));
                                     foreach ($members as $row) {
                                         echo '<option value="' . $row['HEAD_ID'] . '">' . $row['NAME'] . '</option>';
-                                     }
-                                    
+                                    }
+
                                     ?>
 
                                 </select>
@@ -151,7 +146,7 @@ if (isset($error)) {
                         </button>
 
                     </form>
-                    </form>
+
                 </div>
 
             </div>

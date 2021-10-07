@@ -28,9 +28,9 @@ class EventManager
         trigger_error('Deserializing not allowed.', E_USER_ERROR);
     }
 
-    public function handleThumbnail($filename, $tempname, $fileSize, $fileError,$savedDestination)
+    public function handleThumbnail($filename, $tempname, $fileSize, $fileError, $savedDestination)
     {
-        
+
         $fileExtension = explode(".", $filename);
         $fileActualExtension = strtolower(end($fileExtension));
         $allowedFileTypes = array("jpg", "jpeg", "png");
@@ -38,14 +38,14 @@ class EventManager
             if ($fileError === 0) {
                 if ($fileSize <= 5242880) {
                     $newfileName = uniqid('', true) . "." . $fileActualExtension;
-                    $fileDestination = 'global/eventThumbnails/'. $savedDestination .'/' . $newfileName;
+                    $fileDestination = 'global/eventThumbnails/' . $savedDestination . '/' . $newfileName;
                     (move_uploaded_file($tempname, $fileDestination));
                     return $fileDestination;
                 } else {
                     throw new Exception("File size is too big");
                 }
             } else {
-                 throw new Exception("There was an error uploading your file");
+                throw new Exception("There was an error uploading your file");
             }
         } else {
             throw new Exception($fileActualExtension . " is not a valid file type");
@@ -57,10 +57,10 @@ class EventManager
         $name = ($eventName);
         $startDate = $eventStartDate;
         $endDate = $EventEndDate;
-        $location =($eventLocation);
+        $location = ($eventLocation);
         $description = ($eventDescription);
         $eventThumbnail = $thumbnail;
-        if(!empty($eventHeadId) || !empty($name) || !empty($startDate) || !empty($endDate) || !empty($location) || !empty($description) || !empty($eventThumbnail)){
+        if (!empty($eventHeadId) || !empty($name) || !empty($startDate) || !empty($endDate) || !empty($location) || !empty($description) || !empty($eventThumbnail)) {
             $query = "INSERT INTO `events`(`EVENT_HEAD_ID`, `EVENT_NAME`, `EVENT_HEAD_EMAIL`, `PLACE`, `DESCRIPTION`, `THUMBNAIL`, `EVENT_START_DATE`, `EVENT_END_DATE`) VALUES (
                 '$eventHeadId',
                 '$name',
@@ -71,135 +71,130 @@ class EventManager
                 '$startDate',
                 '$endDate'
             )";
-        $result = $this->db->query($query);
-        if ($result) {
-            return true;
+            $result = $this->db->query($query);
+            if ($result) {
+                return true;
+            } else {
+                throw new Exception("Error: " . $this->db->error);
+            }
         } else {
-            throw new Exception("Error: " . $this->db->error);
-        }
-        }
-        else{
             throw new Exception("All fields are required");
         }
-        
     }
 
-    public function addSubEvents($eventName,$email, $category,$subEventHeadID, $subEventName, $subEventDescription, $subEventDateTime, $subEventLocation, $subEventThumbnail){
-        try{
-            $arrayeventID = $this->getEventID($eventName, $email);
-            $eventID = $arrayeventID['EVENT_ID'];
-        }
-        catch(Exception $e){
-            $errors = $e->getMessage();
-        }
+    public function addSubEvents(
+        $event_id,
+        $sub_event_name,
+        $category,
+        $subEventHeadID,
+        $sub_event_description,
+        $thumbnailDestination,
+        $sub_event_datetime,
+        $sub_event_location,
+    ) {
         $query = "INSERT INTO `subevents`(`EVENT_ID`, `SUB_EVENT_NAME`, `CATEGORY`,`SUB_EVENT_HEAD`,`SUB_EVENT_DESCRIPTION`, `THUMBNAIL`, `SUB_EVENT_DATE`, `SUB_EVENT_LOCATION`) VALUES (
-            '$eventID',
-            '$subEventName',
+            '$event_id',
+            '$sub_event_name',
             '$category',
             '$subEventHeadID',
-            '$subEventDescription',
-            '$subEventThumbnail',
-            '$subEventDateTime',
-            '$subEventLocation'
+            '$sub_event_description',
+            '$thumbnailDestination',
+            '$sub_event_datetime',
+            '$sub_event_location'
             )";
         $result = $this->db->query($query);
         if ($result) {
             return true;
+        } else {
+            throw new Exception(
+                "Error: " . mysqli_error($this->db)
+                //$subEventName,
+                // $category,
+                // $subEventHeadID,
+                // $subEventDescription,
+                // $subEventThumbnail,
+                // $subEventDateTime,
+                // $subEventLocation
+            );
         }
-        else{
-            throw new Exception("Error: " . mysqli_error($this->db)
-            //$subEventName,
-            // $category,
-            // $subEventHeadID,
-            // $subEventDescription,
-            // $subEventThumbnail,
-            // $subEventDateTime,
-            // $subEventLocation
-        );
-        }
-
-
     }
 
-    public function getSubEventDetails(){
+    public function getSubEventDetails()
+    {
         $query = "SELECT * FROM `subevents`";
         $result = $this->db->query($query);
         if ($result) {
             return $result;
-        }
-        else{
+        } else {
             throw new Exception("Error: " . mysqli_error($this->db));
         }
     }
 
-    public function filterSubEvents($tagName){
-        try{
+    public function filterSubEvents($tagName)
+    {
+        try {
             $tagID = $this->getTagID($tagName);
             $query = "SELECT * FROM `tags` INNER JOIN subevents ON tags.ID = '$tagID' = subevents.CATEGORY = '$tagID'";
             $result = $this->db->query($query);
             if ($result) {
                 return $result;
-            }
-            else{
+            } else {
                 throw new Exception("Error: " . mysqli_error($this->db));
             }
-        }
-        catch(Exception $e){
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-        
     }
 
-    public function getTags(){
+    public function getTags()
+    {
         $query = "SELECT * FROM `tags`";
         $result = $this->db->query($query);
         if ($result) {
             return $result;
-        }
-        else{
+        } else {
             throw new Exception("Error: " . mysqli_error($this->db));
         }
     }
 
-    public function getTagID($tagName){
+    public function getTagID($tagName)
+    {
         $query = "SELECT * FROM `tags` WHERE `TAG_NAME` = '$tagName'";
         $result = $this->db->query($query);
         if ($result) {
             $row = $result->fetch_assoc();
             return $row['ID'];
-        }
-        else{
+        } else {
             throw new Exception("Error: " . mysqli_error($this->db));
         }
     }
 
-    public function getEvents($email){
+    public function getEvents($email)
+    {
         $query = "SELECT EVENT_NAME, EVENT_ID FROM `events` WHERE EVENT_HEAD_EMAIL = '$email'";
-        if($result = $this->db->query($query)){
+        if ($result = $this->db->query($query)) {
             $events = array();
-            while($row = $result->fetch_assoc()){
+            while ($row = $result->fetch_assoc()) {
                 $events[] = $row;
-
             }
             return $events;
-        }
-        else{
+        } else {
             throw new Exception("Error: " . $this->db->error);
         }
-       
     }
 
-    public function getSubEventHeads($organization, $heademail, $eventName){
-        
+    public function getSubEventHeads($organization, $heademail, $eventName)
+    {
     }
 
-    public function getEventID($eventName, $email){
-        $query = "SELECT EVENT_ID FROM `events` WHERE EVENT_NAME = '$eventName' AND EVENT_HEAD_EMAIL = '$email'";
-        if($result = $this->db->query($query)){
-            $eventID = $result->fetch_assoc();
-            return $eventID;
-        }
-        else{
+    public function getEventID($eventName)
+    {
+
+        $query = "SELECT EVENT_ID AS ID FROM `events` WHERE EVENT_NAME = '$eventName'";
+        if ($result = $this->db->query($query)) {
+            $row = $result->fetch_assoc();
+            return var_dump($eventName);
+        } else {
             throw new Exception("Error: " . $this->db->error);
         }
     }
