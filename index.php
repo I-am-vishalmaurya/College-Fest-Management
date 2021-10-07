@@ -54,7 +54,7 @@ $router->post("/login", function () {
 $router->get("/dashboard", function () {
     $userData = json_decode($_COOKIE['userData'], true);
     if (isset($userData['id']) && !empty(isset($userData['id']))) {
-        require_once 'templates/dashboard.php';
+        require_once 'templates/users/dashboard.php';
     } else {
         header("location: /login");
     }
@@ -70,6 +70,78 @@ $router->post("/register", function () {
     include 'src/Authentication/register.php';
 });
 
+
+//User Functionality
+$router->get('/view-profile', function(){
+    $userData = json_decode($_COOKIE['userData'], true);
+    if (isset($userData['id']) && !empty(isset($userData['id']))) {
+        
+        require_once 'templates/users/viewProfile.php';
+    } else {
+        header("location: /login");
+    }
+});
+
+$router->get('/all-event', function(){
+    $userData = json_decode($_COOKIE['userData'], true);
+    if (isset($userData['id']) && !empty(isset($userData['id']))) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/EventManager.php';
+        require_once 'templates/users/all-events.php';
+    } else {
+        header("location: /login");
+    }
+});
+
+// User Joining the Event
+$router -> get('/join-subevent', function(){
+    $userData = json_decode($_COOKIE['userData'], true);
+    if (isset($userData['id']) && !empty(isset($userData['id']))) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/SubEvents.php';
+        require_once 'src/Events/join-subevent.php';
+    } else {
+        header("location: /login");
+    }
+});
+
+$router -> get('/save-subevent', function(){
+    $userData = json_decode($_COOKIE['userData'], true);
+    if (isset($userData['id']) && !empty(isset($userData['id']))) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/SubEvents.php';
+        require_once 'src/Events/save-subevent.php';
+    } else {
+        header("location: /login");
+    }
+});
+
+$router->get('/schedule', function(){
+    $userData = json_decode($_COOKIE['userData'], true);
+    if (isset($userData['id']) && !empty(isset($userData['id']))) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/SubEvents.php';
+        require_once 'templates/users/event-schedule.php';
+    } else {
+        header("location: /login");
+    }
+});
+
+$router->get('/saved', function(){
+    $userData = json_decode($_COOKIE['userData'], true);
+    if (isset($userData['id']) && !empty(isset($userData['id']))) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/SubEvents.php';
+        require_once 'templates/users/saved.php';
+    } else {
+        header("location: /login");
+    }
+});
 // *********************** User functionality Done **********************************
 
 // ************************ Event Head Functionality Start **************************

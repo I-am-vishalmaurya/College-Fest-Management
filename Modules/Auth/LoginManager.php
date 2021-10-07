@@ -65,5 +65,7 @@ class LoginManager{
                 return false;
             }
         }
+
+       
     }
 ?>

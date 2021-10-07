@@ -1,15 +1,14 @@
 <?php 
-    $id = $data['id'];
-    $name = $data['name'];
+    $id = $userData['id'];
+    $name = $userData['name'];
 
 ?>
 
-
 <?php
-$title = "Profile - Eventers";
+$title = "Dashboard - Eventers";
 $bodyColor = 'bg-white';
-include 'templates/event-heads/header.php';
-include 'templates/event-heads/navbar.php';
+include 'templates/users/header.php';
+include 'templates/users/navbar.php';
 ?>
 
 <div class="container-fluid bg-white">
@@ -20,8 +19,8 @@ include 'templates/event-heads/navbar.php';
                 <div class="update__profile__pic my-4">
                     <img src="<?php
 
-                                if (isset($data['THUMBNAIL'])) {
-                                    echo $imgDestination . $data['THUMBNAIL'];
+                                if (isset($userData['THUMBNAIL'])) {
+                                    echo $imgDestination . $userData['THUMBNAIL'];
                                 } else {
                                     echo  "templates/assets/images/undraw_profile.svg";
                                 }
@@ -46,7 +45,7 @@ include 'templates/event-heads/navbar.php';
             </div>
             <div class="form-group">
                 <label for="staticEmail" class="col-sm-2 col-md-4 col-form-label">Email</label>
-                <input type="email" class="form-control form-control-user" readonly="" name="email" placeholder="Email" value=<?php echo $data['email']; ?>>
+                <input type="email" class="form-control form-control-user" readonly="" name="email" placeholder="Email" value=<?php echo $userData['email']; ?>>
             </div>
            
             <div class="row form-group">
@@ -58,5 +57,5 @@ include 'templates/event-heads/navbar.php';
     </div>
 </div>
 <?php
-include_once 'templates/event-heads/footer.php';
+include_once 'templates/users/footer.php';
 ?>

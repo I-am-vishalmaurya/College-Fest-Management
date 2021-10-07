@@ -19,7 +19,7 @@
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
     <link href="templates/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="templates/assets/css/eventhead.css" rel="stylesheet">
+    <link href="templates/assets/css/userStyles.css" rel="stylesheet">
 
 </head>
 
