@@ -130,6 +130,16 @@ class EventManager
         }
     }
 
+    public function subEventDetails($id){
+        $query = "SELECT * FROM `subevents` INNER JOIN events WHERE subevents.SUB_EVENT_ID = '$id' AND subevents.EVENT_ID = events.EVENT_ID";
+        $result = $this->db->query($query);
+        if ($result) {
+            return $result;
+        } else {
+            throw new Exception("Error: " . mysqli_error($this->db));
+        }
+    }
+
     public function filterSubEvents($tagName)
     {
         try {
@@ -187,6 +197,16 @@ class EventManager
     {
     }
 
+    public function getHeadInfoOnSubEventID($sub_event_head_id){
+        $query = "SELECT * FROM `event_heads` WHERE ID = '$sub_event_head_id'";
+        $result = $this->db->query($query);
+        if ($result) {
+            return $result;
+        } else {
+            throw new Exception("Error: " . mysqli_error($this->db));
+        }
+    }
+
     public function getEventID($eventName)
     {
 
@@ -196,6 +216,16 @@ class EventManager
             return var_dump($eventName);
         } else {
             throw new Exception("Error: " . $this->db->error);
+        }
+    }
+
+    public function deleteSubEvents($sub_event_id){
+        $query = "DELETE FROM `subevents` WHERE SUB_EVENT_ID = '$sub_event_id'";
+        $result = $this->db->query($query);
+        if ($result) {
+            return true;
+        } else {
+            throw new Exception("Error: " . mysqli_error($this->db));
         }
     }
 }

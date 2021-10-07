@@ -9,14 +9,14 @@
             //unset($_COOKIE['headUser']);
             setcookie('headUser', 'none', time() - 86400 , '/');
             echo "Done";
-            header("location: /optimized-event-manager/head-login");
+            header("location: head-login");
         }
     }
     elseif(isset($_COOKIE['userData'])){
         $userData = json_decode($_COOKIE['userData'], true);
         if(isset($userData['id'])){
             setcookie('userData', '', time() - 86400 * 30, '/');
-            header("location: /optimized-event-manager/login");
+            header("location: login");
         }
     }
     

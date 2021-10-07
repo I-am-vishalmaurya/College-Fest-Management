@@ -186,6 +186,44 @@ $router->get('/show-event', function () {
         header("location: /head-login");
     }
 });
+
+$router->get('/update-subevent', function(){
+    $data = json_decode($_COOKIE['headUser'], true);
+    if (isset($data['id']) && !empty(isset($data['id']))) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/EventManager.php';
+        include 'templates/event-heads/update-subevent.php';
+    } else {
+        header("location: /head-login");
+    }
+});
+
+$router->get('/delete-subevent', function(){
+    $data = json_decode($_COOKIE['headUser'], true);
+    if (isset($data['id']) && !empty(isset($data['id']))) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/EventManager.php';
+        include 'src/Events/delete-subevent.php';
+    } else {
+        header("location: /head-login");
+    }
+});
+
+// Reports
+$router ->get('/report', function(){
+    $data = json_decode($_COOKIE['headUser'], true);
+    if (isset($data['id']) && !empty(isset($data['id']))) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/EventManager.php';
+        include 'Modules/Organization/OrganizationManager.php';
+        include 'templates/event-heads/report.php';
+    } else {
+        header("location: /head-login");
+    }
+});
 // Head Organization
 $router->get('/organization', function (array $params = []) {
     $data = json_decode($_COOKIE['headUser'], true);
@@ -240,6 +278,10 @@ $router->get('/report', function () {
     }
 });
 
+//Logout
+$router->get('/logout', function () {
+    include 'templates/Auth/Logout.php';
+});
 
 // ************************ Event Head Functionality Done *******************************
 // $router -> get("/contact", Contact::class. '::execute');

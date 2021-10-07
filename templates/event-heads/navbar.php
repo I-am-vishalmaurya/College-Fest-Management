@@ -86,7 +86,7 @@
             </div>
 
 
-            <a href="report.php" class="nav__links margin__bottom__2rem">
+            <a href="report" class="nav__links margin__bottom__2rem">
                 <i class='bx bx-message nav__box_icons'></i>
                 <span class="nav__name">Report</span>
             </a>
@@ -115,7 +115,7 @@
                 </span>
             </a>
         </div>
-        <a href="logout.php" class="nav__links nav__logout">
+        <a href="logout" class="nav__links nav__logout">
             <i class='bx bx-log-out nav__box_icons'></i>
             <span class="nav__name">Log out</span>
         </a>
@@ -138,7 +138,7 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <form method="post" action="templates/Auth/logout.php">
+                <form method="get" action="logout">
                     <button class="btn btn-primary" name="logout" type="submit">Logout</button>
                 </form>
                 
