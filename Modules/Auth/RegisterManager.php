@@ -9,14 +9,15 @@
         }
 
         
-        public function registerUser($name, $email, $password, $confirmpassword){
+        public function registerUser($name, $email, $password, $confirmpassword, $phoneNumber){
             $name = $this->db->real_escape_string($name);
             $email = $this->db->real_escape_string($email);
             $password = $this->db->real_escape_string($password);
             $confirmpassword = $this->db->real_escape_string($confirmpassword);
+            $phoneNumber = $this->db->real_escape_string($phoneNumber);
             if($password === $confirmpassword){
                 $password = md5($password);
-                $result = $this->db->query("INSERT INTO users_details (NAME, EMAIL, PASSWORD) VALUES ('$name', '$email', '$password')");
+                $result = $this->db->query("INSERT INTO users_details (NAME, EMAIL, PASSWORD, PHONE) VALUES ('$name', '$email', '$password', '$phoneNumber')");
                 return $result;
             }
             else{

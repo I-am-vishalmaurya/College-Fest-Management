@@ -1,7 +1,7 @@
 <?php 
     $id = $userData['id'];
     $name = $userData['name'];
-
+    $phone = $userData['phone'];
 ?>
 
 <?php
@@ -41,6 +41,10 @@ include 'templates/users/navbar.php';
                     <label for="staticFname" class="col-sm-2 col-md-4 col-form-label">Name</label>
                     <input type="text" class="form-control form-control-user" readonly="" name="name" placeholder="First Name" value=<?php echo $name ?>>
                 </div>
+                <div class="col-sm-6">
+                    <label for="staticFname" class="col-sm-2 col-md-4 col-form-label">Phone</label>
+                    <input type="text" class="form-control form-control-user" readonly="" name="name" placeholder="First Name" value=<?php echo $phone ?>>
+                </div>
                 
             </div>
             <div class="form-group">
@@ -49,7 +53,7 @@ include 'templates/users/navbar.php';
             </div>
            
             <div class="row form-group">
-                <div class="col"><button type="submit" class="btn btn-success w-100">Update the account</button></div>
+                <div class="col"><button type="submit" class="btn btn-success w-100">Don't Click</button></div>
                 <!-- <div class="col"><button type="submit" class="btn btn-warning w-100">Password</button></div>
                         <div class="col"><button type="submit" class="btn btn-danger w-100">Delete account</button></div> -->
             </div>

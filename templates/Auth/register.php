@@ -53,6 +53,9 @@
                                         <input type="password" class="form-control form-control-user" name="confirm-password" placeholder="Confirm password" required>
                                     </div>
                                 </div>
+                                <div class="form-group mb-3">
+                                    <input type="phone" class="form-control form-control-user" name="phone" placeholder="Phone Number" required>
+                                </div>
                                 <div class="form-check form-switch mb-3">
                                     <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" required>
                                     <label class="form-check-label" for="flexSwitchCheckChecked">By checking you are agreeing to T&C of eventers.</label>

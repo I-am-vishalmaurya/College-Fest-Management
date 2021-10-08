@@ -13,6 +13,7 @@
                 'id' => $row['ID'],
                 'name' => $row['NAME'],
                 'email' => $row['EMAIL'],
+                'phone' => $row['PHONE'],
                 'usertype'=>'USER',
             );
             $past = time() - 3600;

@@ -104,7 +104,7 @@
                 <i class='bx bx-time nav__box_icons'></i>
                 <span class="nav__name">Your event schedule</span>
             </a>
-            <a href="#" class="nav__links nav__logout">
+            <a href="logout" class="nav__links nav__logout">
                 <i class='bx bx-log-out nav__box_icons'></i>
                 <span class="nav__name">Log out</span>
             </a>
@@ -128,7 +128,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../pages/joiners_login.php">Logout</a>
+                    <a class="btn btn-primary" href="logout">Logout</a>
                 </div>
             </div>
         </div>
