@@ -27,17 +27,13 @@
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDetailDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="view-profile">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                 </a>
                 <a class="dropdown-item" href="#">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -63,7 +59,7 @@
 
             </div>
 
-            <a href="../pages/dashboard.php" class="nav__links">
+            <a href="dashboard" class="nav__links">
                 <i class='bx bx-home-alt nav__box_icons'></i>
                 <span class="nav__name">Home</span>
             </a>
@@ -77,7 +73,7 @@
                 <div class="nav__dropdown__collapse">
                     <div class="nav__dropdown__content bg-whiite">
                         <a href="view-profile" class="nav__dropdown__item">Account</a>
-                        <a href="../pages/forgot-password.php" class="nav__dropdown__item">Password</a>
+                        <a href="forgot-password" class="nav__dropdown__item">Password</a>
 
                     </div>
                 </div>

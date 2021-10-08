@@ -34,7 +34,7 @@ include 'templates/users/navbar.php';
 
                             <div class="row">
                                 <div class="col">
-                                    <a href="join-subevent?<?php echo 'id=' . $id = $subEvents['SUB_EVENT_ID']; ?>" name="edit_button" class="btn btn-block btn-primary mb-1 w-100">Unjoin</a>
+                                    <a href="unjoin-subevent?<?php echo 'id=' . $id = $subEvents['SUB_EVENT_ID']; ?>" name="edit_button" class="btn btn-block btn-primary mb-1 w-100">Unjoin</a>
                                 </div>
                                 <div class="col">
                                     <a href="delete-subevent?<?php echo 'id=' . $id ?>" class="btn btn-block btn-info mb-1 w-100">View</a>

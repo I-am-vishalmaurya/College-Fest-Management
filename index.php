@@ -54,6 +54,10 @@ $router->post("/login", function () {
 $router->get("/dashboard", function () {
     $userData = json_decode($_COOKIE['userData'], true);
     if (isset($userData['id']) && !empty(isset($userData['id']))) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/EventManager.php';
+        include 'Modules/Events/SubEvents.php';
         require_once 'templates/users/dashboard.php';
     } else {
         header("location: /login");
@@ -70,7 +74,26 @@ $router->post("/register", function () {
     include 'src/Authentication/register.php';
 });
 
+// User Forgot Password
+$router -> get('/forgot-password', function(){
+    $userData = json_decode($_COOKIE['userData'], true);
+    if (isset($userData['id']) && !empty(isset($userData['id']))) {
+        require_once 'templates/users/forgot-password.php';
+    } else {
+        header("location: /login");
+    }
+});
 
+$router->post('/forgot-password', function(){
+    $userData = json_decode($_COOKIE['userData'], true);
+    if (isset($userData['id']) && !empty(isset($userData['id']))) {
+        require_once 'Modules/includes/db.php';
+        require_once 'Modules/Auth/LoginManager.php';
+        require_once 'src/Authentication/forgot-password.php';
+    } else {
+        header("location: /login");
+    }
+});
 //User Functionality
 $router->get('/view-profile', function(){
     $userData = json_decode($_COOKIE['userData'], true);
@@ -102,6 +125,18 @@ $router -> get('/join-subevent', function(){
         include 'Modules/Auth/LoginManager.php';
         include 'Modules/Events/SubEvents.php';
         require_once 'src/Events/join-subevent.php';
+    } else {
+        header("location: /login");
+    }
+});
+
+$router->get('/unjoin-subevent', function(){
+    $userData = json_decode($_COOKIE['userData'], true);
+    if (isset($userData['id']) && !empty(isset($userData['id']))) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/SubEvents.php';
+        require_once 'src/Events/unjoin-subevent.php';
     } else {
         header("location: /login");
     }

@@ -41,6 +41,17 @@ class SubEvents {
         }
     }
 
+    public function unJoinSubEvent($subeventid, $userID){
+        $sql = "DELETE FROM `joined_events` WHERE `SUB_EVENT_ID` = '$subeventid' AND `USER_ID` = '$userID'";
+        $result = $this->db->query($sql);
+        if($result){
+            return $result;
+        }
+        else {
+            throw new Exception("Error Joining Sub Event" . mysqli_error($this->db));
+        }
+    }
+
     public function saveSubEvents($subeventid, $userID){
         $sql = "INSERT INTO `saved_events`(`SUB_EVENT_ID`, `USER_ID`) VALUES ('$subeventid', '$userID')";
         $result = $this->db->query($sql);
@@ -107,6 +118,29 @@ class SubEvents {
         }
         else {
             throw new Exception("No Saved Sub Events Found" . mysqli_error($this->db));
+        }
+    }
+
+    // Extra Liked Function 
+    public function likedtheProject($userID){
+        $sql = "INSERT INTO `liked_the_project`(USER_ID, LIKED) VALUES ('$userID', 1)";
+        $result = $this->db->query($sql);
+        if($result){
+            return $result;
+        }
+        else {
+            throw new Exception("Error Liking the Project" . mysqli_error($this->db));
+        }
+    }
+
+    public function getLikedProject(){
+        $sql = "SELECT * FROM `liked_the_project`";
+        $result = $this->db->query($sql);
+        if($result){
+            return $result;
+        }
+        else {
+            throw new Exception("No Liked Projects Found" . mysqli_error($this->db));
         }
     }
 }
