@@ -129,7 +129,25 @@ class EventManager
             throw new Exception("Error: " . mysqli_error($this->db));
         }
     }
+    public function getEventBasedOnHeadID($headID){
+        $query = "SELECT `EVENT_ID` FROM `events` WHERE `EVENT_HEAD_ID` = '$headID'";
+        $result = $this->db->query($query);
+        if ($result) {
+            return $result;
+        } else {
+            throw new Exception("Error: " . mysqli_error($this->db));
+        }
+    }
 
+    public function getSubEventDetailsBasedOnEventID($eventID){
+        $query = "SELECT * FROM `subevents` INNER JOIN events WHERE events.EVENT_ID = '$eventID' AND subevents.EVENT_ID = '$eventID'";
+        $result = $this->db->query($query);
+        if ($result) {
+            return $result;
+        } else {
+            throw new Exception("Error: " . mysqli_error($this->db));
+        }
+    }
     public function subEventDetails($id){
         $query = "SELECT * FROM `subevents` INNER JOIN events WHERE subevents.SUB_EVENT_ID = '$id' AND subevents.EVENT_ID = events.EVENT_ID";
         $result = $this->db->query($query);

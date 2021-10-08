@@ -1,7 +1,17 @@
 <?php
+$eventManager = new EventManager();
 $subeventManager = new SubEvents();
 $headID = $data['id'];
-$subevent = $subeventManager->getSubEvents($headID);
+try {
+    $getEvent = $eventManager->getEventBasedOnHeadID($headID);
+    $arrayOfEvents = mysqli_fetch_all($getEvent);
+    
+} catch (Exception $e) {
+    $error = $e->getMessage();
+}
+
+
+$subevent = null;
 
 ?>
 
@@ -31,29 +41,31 @@ include 'navbar.php';
             </thead>
             <tbody>
                 <?php
-                $serial_count = 0;
-
-                while ($row = mysqli_fetch_assoc($subevent)) {
-                    $serial_count += 1;
-
-                ?>
-
-                    <tr>
-                        <th scope="row"><?php echo $serial_count ?></th>
-                        <td><?php echo $row['EVENT_NAME']; ?></td>
-                        <td><?php echo $row['SUB_EVENT_NAME']; ?></td>
-                        <td><?php echo date('d F Y', strtotime($row['SUB_EVENT_DATE'])); ?></td>
-                        <!-- <td><?php //numberOfJoiners($row['ID']); 
-                                    ?></td> -->
-                        <form action="eventJoinersDetails.php" method="get">
-                            <td><button class="btn btn-block btn-outline-primary" name="buttoneventID" value=<?php echo $row['ID'] ?> onclick="location.href='eventJoinersDetails.php'">View</button></td>
-                        </form>
-                    </tr>
-                <?php
+                for ($j = 0; $j < count($arrayOfEvents); $j++) {
+                    $ids = ($arrayOfEvents[$j]);
+                    $getSubEvents = $eventManager->getSubEventDetailsBasedOnEventID($ids[0]);
+                    $arrayofSubevents[] = mysqli_fetch_all($getSubEvents);
+                    if($arrayofSubevents === null){
+                        echo "Null";
+                    }
+                    else{
+                        for ($i = 0; $i < count($arrayofSubevents[$j]); $i++) {
+                            $subevent = $arrayofSubevents[$j][$i];
+                            echo "<tr>";
+                            echo "<td>".$subevent[1]."</td>";
+                            echo "<td>".$subevent[2]."</td>";
+                            echo "<td>".$subevent[3]."</td>";
+                            echo "<td>".$subevent[4]."</td>";
+                            echo "<td><a href='report-details.php?id=".$subevent[0]."' class='btn btn-primary'>Details</a></td>";
+                            echo "</tr>";
+                        }
+                    }
                 }
-
-
+                
+                
                 ?>
+
+
             </tbody>
         </table>
     </div>

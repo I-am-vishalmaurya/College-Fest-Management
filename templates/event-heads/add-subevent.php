@@ -125,12 +125,10 @@ if (isset($error)) {
                                 <select name="category" class="form-select" placeholder="Choose Category">
                                     <option value="0" selected disabled>Choose the category</option>
                                     <option value="1">Sports</option>
-                                    <option value="2">Outdoor activity</option>
-                                    <option value="3">Indoor sports</option>
-                                    <option value="4">Entertainment</option>
-                                    <option value="5">Quiz games</option>
-                                    <option value="6">Games</option>
-                                    <option value="7">Other</option>
+                                    <option value="2">PC games</option>
+                                    <option value="3">Entertainment</option>
+                                    <option value="4">Quizzes</option>
+                                    
                                 </select>
                             </div>
                         </div>

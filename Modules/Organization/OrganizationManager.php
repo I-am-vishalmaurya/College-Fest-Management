@@ -124,6 +124,18 @@
 
         }
 
+        public function getOrganizationBasedOnHeadID($headID){
+            $query = "SELECT organizations.ORG_ID FROM `organizations` INNER JOIN event_heads ON organizations.ORG_ADMIN_ID = '$headID'= event_heads.ID = '$headID'";
+            $result = $this->db->query($query);
+            if($result){
+                $row = $result->fetch_assoc();
+                return $row;
+            }
+            else{
+                throw new Exception("Error: Organization ID not found");
+            }
+        }
+
         public function getOrganizationHeadDetails($headID){
             $query = "SELECT * FROM `organizations` INNER JOIN event_heads ON organizations.ORG_ADMIN_ID = '$headID' = event_heads.ID = '$headID' ";
             $result =  $this->db->query($query);

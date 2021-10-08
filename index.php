@@ -378,6 +378,8 @@ $router->get('/report', function () {
     $data = json_decode($_COOKIE['headUser'], true);
     if (isset($data['id']) && !empty(isset($data['id']))) {
         include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/EventManager.php';
         include 'Modules/Events/SubEvents.php';
         require_once 'templates/event-heads/report.php';
     } else {
