@@ -5,7 +5,6 @@ $eventdetails = new EventManager();
 $getOrgMembers = new OrganizationManager();
 $head_email_id = $data['email'];
 $headID = $data['id'];
-echo "In Post Section";
 // Get  the EVent names hosted by the head
 try {
     $eventNames = $eventdetails->getEvents($head_email_id);

@@ -31,12 +31,11 @@ include 'navbar.php';
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col"></th>
                     <th scope="col">Event name</th>
                     <th scope="col">Sub event name</th>
                     <th scope="col">Date</th>
                     <th scope="col">Responses</th>
-                    <th scope="col">Details</th>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -52,11 +51,10 @@ include 'navbar.php';
                         for ($i = 0; $i < count($arrayofSubevents[$j]); $i++) {
                             $subevent = $arrayofSubevents[$j][$i];
                             echo "<tr>";
-                            echo "<td>".$subevent[1]."</td>";
+                            echo "<td>".$subevent[12]."</td>";
                             echo "<td>".$subevent[2]."</td>";
-                            echo "<td>".$subevent[3]."</td>";
-                            echo "<td>".$subevent[4]."</td>";
-                            echo "<td><a href='report-details.php?id=".$subevent[0]."' class='btn btn-primary'>Details</a></td>";
+                            echo "<td>".date('d F Y', strtotime($subevent[7]))."</td>";
+                            echo "<td><a href='detail-report?id=".$subevent[0]."' class='btn btn-primary'>Details</a></td>";
                             echo "</tr>";
                         }
                     }

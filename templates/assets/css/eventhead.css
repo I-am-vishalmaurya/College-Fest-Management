@@ -410,3 +410,50 @@
     opacity: 1;
     background-color: orangered !important;
   }
+
+  /* Styles for Glass design on the card */
+.main-body-color{
+  background-color: #f8e71c;
+  background-image: radial-gradient(
+      at 47% 33%,
+      hsl(37.43, 91%, 55.00000000000001%) 0,
+      transparent 59%
+    ),
+    radial-gradient(at 82% 65%, hsl(33.22, 100%, 50%) 0, transparent 55%);
+}
+
+.dashboard-info-show{
+  font-size: 82px;
+  color: black;
+  font-weight: bold;
+
+}
+
+.liked-info-show{
+  font-size: 24px;
+  color: black;
+  font-weight: bold;
+}
+
+.glass-card-body{
+  margin-top: 80px;
+}
+.dashboard-top {
+  min-height: 90vh;
+  background-color: #f8e71c;
+  background-image: radial-gradient(
+      at 47% 33%,
+      hsl(37.43, 91%, 55.00000000000001%) 0,
+      transparent 59%
+    ),
+    radial-gradient(at 82% 65%, hsl(33.22, 100%, 50%) 0, transparent 55%);
+}
+
+.glass-card{
+  min-height: 75vh;
+  backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background-color: rgba(249, 249, 249, 0.75);
+    border-radius: 12px;
+    border: 1px solid rgba(209, 213, 219, 0.3);
+}

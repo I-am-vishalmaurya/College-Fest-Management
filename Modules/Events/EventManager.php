@@ -246,4 +246,14 @@ class EventManager
             throw new Exception("Error: " . mysqli_error($this->db));
         }
     }
+
+    public function getJoinUserInfo($sub_event_id){
+        $query = "SELECT NAME, EMAIL, PHONE FROM `users_details` INNER JOIN joined_events ON users_details.ID = joined_events.USER_ID WHERE joined_events.SUB_EVENT_ID = '$sub_event_id'";
+        $result = $this->db->query($query);
+        if ($result) {
+            return $result;
+        } else {
+            throw new Exception("Error: " . mysqli_error($this->db));
+        }
+    }
 }

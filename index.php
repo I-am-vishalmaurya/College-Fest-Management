@@ -387,6 +387,18 @@ $router->get('/report', function () {
     }
 });
 
+$router->get('/detail-report', function(){
+    $data = json_decode($_COOKIE['headUser'], true);
+    if (isset($data['id']) && !empty(isset($data['id']))) {
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Events/EventManager.php';
+        include 'Modules/Events/SubEvents.php';
+        require_once 'templates/event-heads/detail-report.php';
+    } else {
+        header("location: /head-login");
+    }
+});
 //Logout
 $router->get('/logout', function () {
     include 'templates/Auth/Logout.php';
