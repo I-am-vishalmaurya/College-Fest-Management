@@ -53,20 +53,27 @@
                         <tbody>
                             <?php
                             $i = 0;
-                            for($i = 0; $i < count($orgDetails); $i++) {
-                                echo '<tr>';
-                                echo '<th scope="row">' . $i + 1 . '</th>';
-                                echo '<td>' . $orgDetails[$i]['EH_NAME'] . '</td>';
-                                echo '<td>' . $orgDetails[$i]['EH_EMAIL'] . '</td>';
-                                echo '<td>' . $orgDetails[$i]['ORG_STATUS']. '</td>';
-                                echo '<td>';
-                                echo '<form method="post">';
-                                echo '<input type="hidden" name="id" value="' . $orgDetails[$i]['ID'] . '">';
-                                echo '<button type="submit" name="deleteOrgHead" class="btn btn-danger btn-sm">Delete</button>';
-                                echo '</form>';
-                                echo '</td>';
-                                echo '</tr>';
+                            
+                            if(isset($orgDetails)){
+                                for($i = 0; $i < count($orgDetails); $i++) {
+                                    echo '<tr>';
+                                    echo '<th scope="row">' . $i + 1 . '</th>';
+                                    echo '<td>' . $orgDetails[$i]['EH_NAME'] . '</td>';
+                                    echo '<td>' . $orgDetails[$i]['EH_EMAIL'] . '</td>';
+                                    echo '<td>' . $orgDetails[$i]['ORG_STATUS']. '</td>';
+                                    echo '<td>';
+                                    echo '<form method="post">';
+                                    echo '<input type="hidden" name="id" value="' . $orgDetails[$i]['ID'] . '">';
+                                    echo '<button type="submit" name="deleteOrgHead" class="btn btn-danger btn-sm">Delete</button>';
+                                    echo '</form>';
+                                    echo '</td>';
+                                    echo '</tr>';
+                                }
                             }
+                            else{
+                                echo '<h4>Invite Members</h4>';
+                            }
+                            
                             ?>
                         </tbody>
                     </table>

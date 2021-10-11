@@ -5,25 +5,6 @@ $eventdetails = new EventManager();
 $getOrgMembers = new OrganizationManager();
 $head_email_id = $data['email'];
 $headID = $data['id'];
-// Get  the EVent names hosted by the head
-try {
-    $eventNames = $eventdetails->getEvents($head_email_id);
-    
-} catch (Exception $e) {
-    $error = $e->getMessage();
-    
-}
-
-// Get the Sub Event Heads working under Head Organization
-try{
-    $members = $getOrgMembers->getMemberOfOrganization($headID);
-    array_pop($members);
-    array_pop($members);  
-}
-catch(Exception $e){
-    $MemberError = $e->getMessage();
-}
-
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

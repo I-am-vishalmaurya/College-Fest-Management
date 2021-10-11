@@ -1,6 +1,7 @@
 <?php
+
 $eventdetails = new EventManager();
-$getOrgMembers = new OrganizationManager();
+$orgManager= new OrganizationManager();
 $head_email_id = $data['email'];
 $headID = $data['id'];
 try {
@@ -9,13 +10,7 @@ try {
     $error = $e->getMessage();
 }
 
-// Get the Sub Event Heads working under Head Organization
-try {
-    $members = $getOrgMembers->getMemberOfOrganization($headID);
-    $members = array_unique($members, SORT_REGULAR);
-} catch (Exception $e) {
-    $MemberError = $e->getMessage();
-}
+
 
 ?>
 <?php
@@ -42,7 +37,16 @@ if (isset($message)) {
 if (isset($error)) {
     echo '<div class="alert alert-danger">' . $error . '</div>';
 }
-
+// Get the Sub Event Heads working under Head Organization
+try {
+    $org_id = $orgManager->getOrganizationIDHelper($headID);
+    $organizationid = mysqli_fetch_assoc($org_id);
+    $org_id = $organizationid['ORG_ID'];
+    $members = $orgManager->getMemberOfOrganization($org_id);
+    echo $org_id;
+} catch (Exception $e) {
+    echo $MemberError = $e->getMessage();
+}
 ?>
 
 
@@ -63,6 +67,7 @@ if (isset($error)) {
 
                                 <select name="event_name" class="form-select" placeholder="Select event name" id="eventNameDD">
                                     <?php
+                                    
                                     if (isset($eventNames)) {
                                         foreach ($eventNames as $event) {
                                             echo '<option value="' . $event['EVENT_ID'] . '">' . $event['EVENT_NAME'] . '</option>';
@@ -105,9 +110,10 @@ if (isset($error)) {
                                     // do{
                                     //     echo '<option value="' . $member['ID'] . '">' . $member['EH_NAME'] . '</option>';
                                     // }
-                                    // while($member = mysqli_fetch_assoc($members));
-                                    foreach ($members as $row) {
-                                        echo '<option value="' . $row['HEAD_ID'] . '">' . $row['NAME'] . '</option>';
+                                     while($member = mysqli_fetch_assoc($members)){
+                                        echo '<option value="' . $member['ID'] . '">' . $member['EH_NAME'] . '</option>';
+                                    //foreach ($members as $row) {
+                                        // echo '<option value="' . $row['HEAD_ID'] . '">' . $row['NAME'] . '</option>';
                                     }
 
                                     ?>

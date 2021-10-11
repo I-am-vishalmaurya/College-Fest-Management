@@ -113,12 +113,24 @@
             }
         }
 
-        public function getMemberOfOrganization($headID){
-            $org_id = $this->getOrganizationID($this->getOrganizationHeadDetails($headID)['ORG_ID']);
-            $query = "SELECT EH_NAME AS NAME, ID AS HEAD_ID FROM `event_heads` INNER JOIN organizations WHERE event_heads.ORG_STATUS = 'JOINED' AND event_heads.ORG_ID = '$org_id' = organizations.ORG_ID = '$org_id'";
+        public function getMemberOfOrganization($org_id){
+            $query = "SELECT * FROM event_heads WHERE event_heads.ORG_ID = '$org_id'";
             $result = $this->db->query($query);
             if($result){
-                return $result->fetch_all(MYSQLI_ASSOC);
+                return $result;
+            }
+            else{
+                throw new Exception("Error: " . $this->db->error);
+            }
+           
+            
+        }
+
+        public function getOrganizationIDHelper($headID){
+            $query = "SELECT * FROM `organizations` WHERE ORG_ADMIN_ID = $headID";
+            $result = $this->db->query($query);
+            if($result){
+                return $result;
             }
             else{
                 throw new Exception("Error: " . $this->db->error);
@@ -172,7 +184,7 @@
         }
         // fUNCTION TO GET ORGANIZATION HEAD DETAILS WITH HEAD ID (ADMIN ID)
         public function getOrganizationHeadDetails($headID){
-            $query = "SELECT * FROM `organizations` INNER JOIN event_heads ON organizations.ORG_ADMIN_ID = '$headID' = event_heads.ID = '$headID' ";
+            $query = "SELECT * FROM `organizations` INNER JOIN event_heads ON organizations.ORG_ADMIN_ID = event_heads.ID WHERE event_heads.ID = '$headID'";
             $result =  $this->db->query($query);
             if($result){
                 return $result->fetch_assoc();

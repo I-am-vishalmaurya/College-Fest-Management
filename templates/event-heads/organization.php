@@ -22,7 +22,8 @@ try {
     $errorWhileJoining = $e->getMessage();
 }
 try {
-    $details = $orgManager->getAllDetailsOfOrganizations($orgHeadDetails['ORG_ADMIN_ID']);
+    $details = $orgManager->getAllDetailsOfOrganizations($orgHeadDetails['ORG_ID']);
+    
     if ($details) {
         $orgDetails = $details;
     } else {
