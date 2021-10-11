@@ -13,11 +13,11 @@
         if($field['password'] == $field['confirm-password']){
             if($registerManager->required_validation($field)){
                 if($registerManager->eventHeadEmailExist($field['email'])){
-                    header("location: /head-login?status=userAlreadyExist");
+                    header("location: head-login?status=userAlreadyExist");
                 }
                 elseif($registerManager->registerEventHead($field['name'], $field['email'], $field['password'], $field['confirm-password'])){
                     $error = "Success";
-                    header('Location: /head-login.php?status=registrationSuccessful');
+                    header('Location: head-login?status=registrationSuccessful');
                 }
             }
             else{

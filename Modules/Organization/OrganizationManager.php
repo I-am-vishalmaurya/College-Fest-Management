@@ -36,6 +36,7 @@
                     '$orgname',
                     '$org_admin_id'
                 )";
+                
                 if($this->db->query($query)){
                     return true;
                 }
@@ -46,13 +47,26 @@
             }
         }
 
+        public function updateHeadDetails($org_id,$id){
+            
+            $query = "UPDATE `event_heads` SET `ORG_ID` = '$org_id', `ORG_STATUS` = 'ADMIN' WHERE `event_heads`.`ID` = $id;";
+            if($this->db->query($query)){
+                return true;
+            }
+            else{
+                throw new Exception("Error: Organization not updated");
+            }
+        }
+
         public function inviteToOrganization($eventHeadID, $toInviteEmail){
             $checkInvitedHeadEmailExist = $this->loginManager->getHeadID($toInviteEmail);
             try{
                 $joiningOrganizationName = $this->getOrganizationHeadDetails($eventHeadID);
                 $org_id = $this->getOrganizationID($joiningOrganizationName['ORG_NAME']);
+                $org_id = $org_id['ORG_ID'];
                 if(isset($checkInvitedHeadEmailExist)){
-                    if(!$this->getHeadDetailNotInOrganization($toInviteEmail)){
+                    $result = $this->getHeadDetailNotInOrganization($toInviteEmail);
+                    if(mysqli_num_rows($result) > 0){
                         if(isset($org_id)){
                             $query = "UPDATE `event_heads` SET `ORG_ID` = '$org_id', `ORG_STATUS` = 'PENDING' WHERE `event_heads`.`ID` = '$checkInvitedHeadEmailExist'" ;
                             if($this->db->query($query)){
@@ -111,6 +125,27 @@
             }
         }
 
+        public function getAllDetailsOfOrganizations($org_id){
+            $query = "SELECT * FROM `organizations` INNER JOIN event_heads WHERE organizations.ORG_ID = '$org_id' AND event_heads.ORG_ID = '$org_id'";
+            $result = $this->db->query($query);
+            if($result){
+                return $result->fetch_all(MYSQLI_ASSOC);
+            }
+            else{
+                throw new Exception("Error: " . $this->db->error);
+            }
+        }
+
+        public function getDetailsOfHeads($headID){
+            $query = "SELECT * FROM `event_heads` INNER JOIN organizations WHERE `ID` = '$headID'";
+            $result = $this->db->query($query);
+            if($result){
+                return $result;
+            }
+            else{
+                throw new Exception("Error: " . $this->db->error);
+            }
+        }
         public function getOrganizationID($orgName){
             $query = "SELECT `ORG_ID` FROM `organizations` WHERE `ORG_NAME` = '$orgName'";
             $result = $this->db->query($query);
@@ -135,7 +170,7 @@
                 throw new Exception("Error: Organization ID not found");
             }
         }
-
+        // fUNCTION TO GET ORGANIZATION HEAD DETAILS WITH HEAD ID (ADMIN ID)
         public function getOrganizationHeadDetails($headID){
             $query = "SELECT * FROM `organizations` INNER JOIN event_heads ON organizations.ORG_ADMIN_ID = '$headID' = event_heads.ID = '$headID' ";
             $result =  $this->db->query($query);
@@ -146,6 +181,17 @@
                 throw new Exception("Error: Organization not found" . $this->db->error);
             }
         }
+        // FUNCTION FOR PENDING REQUEST
+        public function showDetailsToInvitedHead($org_id){
+            $query = "SELECT event_heads.EH_NAME, organizations.ORG_NAME FROM `event_heads` INNER JOIN organizations WHERE event_heads.ORG_ID = '$org_id' AND organizations.ORG_ID = '$org_id' AND event_heads.ORG_STATUS = 'ADMIN'";
+            $result = $this->db->query($query);
+            if($result){
+                return $result->fetch_assoc();
+            }
+            else{
+                throw new Exception("Error: " . $this->db->error);
+            }
+        }
 
         public function getSubEventHeadDetails(){
             $query = "SELECT * FROM `subevent_head_details` INNER JOIN organizations ON subevent_head_details.ORGANIZATION = organizations.ORG_ID";
@@ -153,10 +199,10 @@
         }
 
         public function getHeadDetailNotInOrganization($email){
-            $query = "SELECT * FROM event_heads WHERE event_heads.ORG_STATUS = 'EMPTY' AND event_heads.EH_EMAIL = '$email'";
+            $query = "SELECT * FROM event_heads WHERE event_heads.ORG_STATUS IS NULL AND event_heads.ORG_ID IS NULL AND event_heads.EH_EMAIL = '$email'";
             $result = $this->db->query($query);
             if($result){
-                return true;
+                return $result;
             }else{
                 return false;
             }
@@ -169,6 +215,26 @@
             }
             else{
                 return false;
+            }
+        }
+        public function getOrganizationssdetails($headID){
+            $query = "SELECT * FROM `organizations` WHERE ORG_ADMIN_ID = '$headID'";
+            $result = $this->db->query($query);
+            if($result){
+                return $result;
+            }
+            else{
+                throw new Exception("Error: " . $this->db->error);
+            }
+        }
+
+        public function deleteOrgHead($delete_head_id){
+            $query = "UPDATE `event_heads` SET `ORG_ID` = NULL, `ORG_STATUS` = NULL WHERE `event_heads`.`ID` = $delete_head_id";
+            if($this->db->query($query)){
+                return true;
+            }
+            else{
+                throw new Exception("Error: " . $this->db->error);
             }
         }
 

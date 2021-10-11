@@ -75,7 +75,7 @@ $router->post("/register", function () {
 });
 
 // User Forgot Password
-$router -> get('/forgot-password', function(){
+$router->get('/forgot-password', function () {
     $userData = json_decode($_COOKIE['userData'], true);
     if (isset($userData['id']) && !empty(isset($userData['id']))) {
         require_once 'templates/users/forgot-password.php';
@@ -84,7 +84,7 @@ $router -> get('/forgot-password', function(){
     }
 });
 
-$router->post('/forgot-password', function(){
+$router->post('/forgot-password', function () {
     $userData = json_decode($_COOKIE['userData'], true);
     if (isset($userData['id']) && !empty(isset($userData['id']))) {
         require_once 'Modules/includes/db.php';
@@ -95,17 +95,17 @@ $router->post('/forgot-password', function(){
     }
 });
 //User Functionality
-$router->get('/view-profile', function(){
+$router->get('/view-profile', function () {
     $userData = json_decode($_COOKIE['userData'], true);
     if (isset($userData['id']) && !empty(isset($userData['id']))) {
-        
+
         require_once 'templates/users/viewProfile.php';
     } else {
         header("location: /login");
     }
 });
 
-$router->get('/all-event', function(){
+$router->get('/all-event', function () {
     $userData = json_decode($_COOKIE['userData'], true);
     if (isset($userData['id']) && !empty(isset($userData['id']))) {
         include 'Modules/includes/db.php';
@@ -118,7 +118,7 @@ $router->get('/all-event', function(){
 });
 
 // User Joining the Event
-$router -> get('/join-subevent', function(){
+$router->get('/join-subevent', function () {
     $userData = json_decode($_COOKIE['userData'], true);
     if (isset($userData['id']) && !empty(isset($userData['id']))) {
         include 'Modules/includes/db.php';
@@ -130,7 +130,7 @@ $router -> get('/join-subevent', function(){
     }
 });
 
-$router->get('/unjoin-subevent', function(){
+$router->get('/unjoin-subevent', function () {
     $userData = json_decode($_COOKIE['userData'], true);
     if (isset($userData['id']) && !empty(isset($userData['id']))) {
         include 'Modules/includes/db.php';
@@ -142,7 +142,7 @@ $router->get('/unjoin-subevent', function(){
     }
 });
 
-$router -> get('/save-subevent', function(){
+$router->get('/save-subevent', function () {
     $userData = json_decode($_COOKIE['userData'], true);
     if (isset($userData['id']) && !empty(isset($userData['id']))) {
         include 'Modules/includes/db.php';
@@ -154,7 +154,7 @@ $router -> get('/save-subevent', function(){
     }
 });
 
-$router->get('/schedule', function(){
+$router->get('/schedule', function () {
     $userData = json_decode($_COOKIE['userData'], true);
     if (isset($userData['id']) && !empty(isset($userData['id']))) {
         include 'Modules/includes/db.php';
@@ -166,7 +166,7 @@ $router->get('/schedule', function(){
     }
 });
 
-$router->get('/saved', function(){
+$router->get('/saved', function () {
     $userData = json_decode($_COOKIE['userData'], true);
     if (isset($userData['id']) && !empty(isset($userData['id']))) {
         include 'Modules/includes/db.php';
@@ -294,7 +294,7 @@ $router->get('/show-event', function () {
     }
 });
 
-$router->get('/update-subevent', function(){
+$router->get('/update-subevent', function () {
     $data = json_decode($_COOKIE['headUser'], true);
     if (isset($data['id']) && !empty(isset($data['id']))) {
         include 'Modules/includes/db.php';
@@ -306,7 +306,7 @@ $router->get('/update-subevent', function(){
     }
 });
 
-$router->get('/delete-subevent', function(){
+$router->get('/delete-subevent', function () {
     $data = json_decode($_COOKIE['headUser'], true);
     if (isset($data['id']) && !empty(isset($data['id']))) {
         include 'Modules/includes/db.php';
@@ -319,7 +319,7 @@ $router->get('/delete-subevent', function(){
 });
 
 // Reports
-$router ->get('/report', function(){
+$router->get('/report', function () {
     $data = json_decode($_COOKIE['headUser'], true);
     if (isset($data['id']) && !empty(isset($data['id']))) {
         include 'Modules/includes/db.php';
@@ -335,32 +335,11 @@ $router ->get('/report', function(){
 $router->get('/organization', function (array $params = []) {
     $data = json_decode($_COOKIE['headUser'], true);
     if (isset($data['id']) && !empty(isset($data['id']) && $data['usertype'] == 'EVENT_HEAD')) {
-        if (!empty($params['status'])) {
-            if ($params['status'] === 'sent') {
-                echo "Invitation Sent";
-                require_once 'templates/event-heads/organization';
-            } elseif ($params['status'] === 'error') {
-                echo "Invitation Not Sent";
-                require_once 'templates/event-heads/organization.php';
-            } elseif ($params['status'] === 'joined') {
-                echo "Joined Successfully";
-                require_once 'templates/event-heads/organization.php';
-            } elseif ($params['status'] === 'notjoined') {
-                echo "Not Joined";
-                require_once 'templates/event-heads/organization.php';
-            } elseif ($params['status'] === 'orgadded') {
-                echo "Organization Added";
-                require_once 'templates/event-heads/organization.php';
-            } elseif ($params['status'] === 'orgaddfailed') {
-                echo "Organization Add Failed";
-                require_once 'templates/event-heads/organization.php';
-            }
-        } else {
-            include 'Modules/includes/db.php';
-            include 'Modules/Auth/LoginManager.php';
-            include 'Modules/Organization/OrganizationManager.php';
-            require_once 'templates/event-heads/organization.php';
-        }
+        //require_once 'Modules/Organization/OrganizationManager.php';
+        include 'Modules/includes/db.php';
+        include 'Modules/Auth/LoginManager.php';
+        include 'Modules/Organization/OrganizationManager.php';
+        require_once 'templates/event-heads/organization.php';
     } else {
         header("location: /head-login");
     }
@@ -387,7 +366,7 @@ $router->get('/report', function () {
     }
 });
 
-$router->get('/detail-report', function(){
+$router->get('/detail-report', function () {
     $data = json_decode($_COOKIE['headUser'], true);
     if (isset($data['id']) && !empty(isset($data['id']))) {
         include 'Modules/includes/db.php';

@@ -1,16 +1,35 @@
-
-
 <?php
+require_once 'Modules/Organization/OrganizationManager.php';
+require_once 'Modules/includes/db.php';
+require_once 'Modules/Auth/LoginManager.php';
 $orgManager = new OrganizationManager();
 $headID = $data['id'];
-try{
+// The head will be thw admin of the organization
+try {
     $result = $orgManager->getOrganizationHeadDetails($headID);
-    if($result){
+    if ($result) {
         $orgHeadDetails = $result;
+    } else {
+        // The head is not an organization admin
+        $headDetails = $orgManager->getDetailsOfHeads($headID);
+        if ($headDetails) {
+            $orgHeadDetails = mysqli_fetch_assoc($headDetails);
+        } else {
+            $orgHeadDetails = null;
+        }
     }
-}
-catch(Exception $e){
+} catch (Exception $e) {
     $errorWhileJoining = $e->getMessage();
+}
+try {
+    $details = $orgManager->getAllDetailsOfOrganizations($orgHeadDetails['ORG_ADMIN_ID']);
+    if ($details) {
+        $orgDetails = $details;
+    } else {
+        $orgDetails = null;
+    }
+} catch (Exception $e) {
+    $infoMemberofOrganization = $e->getMessage();
 }
 
 $title = "Organization - Eventers";
@@ -18,142 +37,28 @@ $bodyColor = 'bg-white';
 include 'templates/event-heads/header.php';
 include 'templates/event-heads/navbar.php';
 ?>
-<div class="container">
-    <div class="row">
-        <div class="container">
-        <div class="col-12">
-            <div class="card border-primary mb-3" style="max-width: 100%;">
-                <div class="card-header">Invite to Organization</div>
-                <?php
-            if (isset($message)) {
-                echo '<div class="alert alert-success">' . $messageInvitation . '</div>';
-            }
-            if (isset($error)) {
-                echo '<div class="alert alert-danger">' . $error . '</div>';
-            }
-            ?>
-                <div class="card-body">
-                    <h4 class="card-title">Add the email of user you want to invite as your sub event head</h4>
-                    <form method="post">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" name="email" placeholder="Enter email of person you want to invite.">
-                        </div>
-                        <button type="submit" name="inviteHeads" class="btn btn-primary btn-sm w-25">Invite</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        </div>
-        
-    </div>
-</div>
 
-<div class="row text-center">
-    <div class="col-6 ">
-        <div class="card mx-auto h-100" style="width: 26rem; ">
-            <?php
-            if (isset($message)) {
-                echo '<div class="alert alert-success">' . $message . '</div>';
-            }
-            if (isset($error)) {
-                echo '<div class="alert alert-danger">' . $error . '</div>';
-            }
-            ?>
-            <img src="templates/assets/images/Create-bro.png" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Create your organization</h5>
-                <p class="card-text">You can create your own organization and invite your friends to join</p>
-                <button type="button" class="btn btn-primary w-25" data-toggle="modal" data-target="#createOrganization">Create</button>
-            </div>
-        </div>
-    </div>
-    <div class="col-6">
-        <div class="card mx-auto h-100" style="width: 26rem;">
-            <?php
-            if (isset($messageWhileJoining)) {
-                echo '<div class="alert alert-success">' . $JoiningMessage . '</div>';
-            }
-            if (isset($errorWhileJoining)) {
-                echo '<div class="alert alert-danger">' . $errorWhileJoining . '</div>';
-            }
-            ?>
-            <img src="templates/assets/images/Back to work-cuate.png" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Join a organization</h5>
-                <p class="card-text">Your organization invites will show here</p>
-                <button type="button" class="btn btn-primary w-25" data-target="#organizationInvites" data-toggle="modal">View</button>
-            </div>
-        </div>
-    </div>
-</div>
+<?php
+if ($headID === $orgHeadDetails['ORG_ADMIN_ID']) {
+    include 'templates/event-heads/organizations/organization-invites.php';
+    
+} else {
+    if ($orgHeadDetails['ORG_STATUS'] === 'ADMIN') {
+        include 'templates/event-heads/organizations/organization-invites.php';
+    } else if ($orgHeadDetails['ORG_STATUS'] === 'JOINED') {
+        include 'templates/event-heads/organizations/organization-joined.php';
+    } else if ($orgHeadDetails['ORG_STATUS'] === 'PENDING') {
+        $org_id = $orgHeadDetails['ORG_ID'];    
+        $pendingResult = $orgManager->showDetailsToInvitedHead($org_id);
+        $org_name = ($pendingResult['ORG_NAME']);
+        $org_Admin_name = $pendingResult['EH_NAME'];
+        include 'templates/event-heads/organizations/organization-pending.php';
+    } else {
+        include 'templates\event-heads\organizations\organization-null.php';
+    }
+}
+?>
 
-<div class="modal fade" id="createOrganization" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Organization</h5>
-
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="post">
-                <div class="modal-body">
-
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Organization Name</label>
-                        <input type="text" name="organization" class="form-control" placeholder="Enter Organization Name">
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="addorganization" class="btn btn-primary">Create Organization</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="organizationInvites" tabindex="-1" aria-labelledby="organizationInvites" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Organization Invites</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="post">
-                <div class="modal-body">
-
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col">
-                                <label>Organization Name</label>
-                            </div>
-                            <div class="col">
-                                <label><?php echo $orgHeadDetails['ORG_NAME'] ?></label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label>Invited By</label>
-                            </div>
-                            <div class="col">
-                                <label><?php echo $orgHeadDetails['EH_NAME'] ?></label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="hidden" name="head_id" value="<?php echo $data['id'] ?>">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="joinOrganization" class="btn btn-primary">Join Organization</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 <!-- <div class="container">
     <h2>You are not part of organization yet</h2>
