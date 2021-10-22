@@ -1,7 +1,7 @@
 <?php
 $subeventManager = new SubEvents();
 $id = $userData['id'];
-$joinedSubEventID = $subeventManager->getSavedSubEventID($id);
+$savedEventID = $subeventManager->getSavedSubEventID($id);
 
 ?>
 
@@ -15,10 +15,10 @@ include 'templates/users/navbar.php';
 <div class="container mt-4">
     <div class="row">
         <?php
-        while ($row = mysqli_fetch_assoc($joinedSubEventID)) {
+        while ($row = mysqli_fetch_assoc($savedEventID)) {
             $subEventID = $row['SUB_EVENT_ID'];
             try {
-                $joinedSubEvents = $subeventManager->getSavedSubEvents($subEventID);
+                $joinedSubEvents = $subeventManager->getSubEventDetailsWithID($subEventID);
                 $subEvents = $joinedSubEvents->fetch_assoc();
         ?>
                 <div class="col-lg-4 col-md-6 mb-4">
@@ -31,8 +31,6 @@ include 'templates/users/navbar.php';
                             </p>
                         </div>
                         <div class="card-footer">
-
-
                             <div class="row">
                                 <div class="col">
                                     <a href="join-subevent?<?php echo 'id=' . $id = $subEvents['SUB_EVENT_ID']; ?>" name="edit_button" class="btn btn-block btn-primary mb-1 w-100">Unjoin</a>
@@ -41,12 +39,9 @@ include 'templates/users/navbar.php';
                                     <a href="delete-subevent?<?php echo 'id=' . $id ?>" class="btn btn-block btn-info mb-1 w-100">View</a>
                                 </div>
                                 <div class="col">
-                                    <a href="save-subevent?<?php echo 'unsaveid=' . $id ?>" class="btn btn-block btn-warning mb-1 w-100"><i class='bx bxs-bookmark-star' ></i></a>
+                                    <a href="save-subevent?<?php echo 'unsaveid=' . $id ?>" class="btn btn-block btn-warning mb-1 w-100"><i class='bx bxs-bookmark-star'></i></a>
                                 </div>
                             </div>
-
-
-
                         </div>
 
                     </div>

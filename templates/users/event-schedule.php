@@ -17,7 +17,7 @@ include 'templates/users/navbar.php';
         while ($row = mysqli_fetch_assoc($joinedSubEventID)) {
             $subEventID = $row['SUB_EVENT_ID'];
             try {
-                $joinedSubEvents = $subeventManager->getJoinedSubEvents($subEventID);
+                $joinedSubEvents = $subeventManager->getSubEventDetailsWithID($subEventID);
                 $subEvents = $joinedSubEvents->fetch_assoc();
         ?>
                 <div class="col-lg-4 col-md-6 mb-4">

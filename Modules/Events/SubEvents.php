@@ -110,8 +110,8 @@ class SubEvents {
         }
     }
 
-    public function getSavedSubEvents($subeventid){
-        $sql = "SELECT * FROM `saved_events` INNER JOIN subevents ON saved_events.SUB_EVENT_ID = '$subeventid'";
+    public function getSubEventDetailsWithID($subeventid){
+        $sql = "SELECT * FROM `subevents` WHERE subevents.SUB_EVENT_ID = '$subeventid'";
         $result = $this->db->query($sql);
         if($result){
             return $result;
@@ -129,6 +129,18 @@ class SubEvents {
         }
         else {
             throw new Exception("Error Getting Number of People Joined Sub Event" . mysqli_error($this->db));
+        }
+    }
+
+    public function showPostedEvents($head_id)
+    {
+        $sql = "SELECT COUNT(*) FROM subevents WHERE SUB_EVENT_HEAD = $head_id";
+        $result = $this->db->query($sql);
+        if($result){
+            return $result;
+        }
+        else {
+            throw new Exception("No Sub Events Found" . mysqli_error($this->db));
         }
     }
 

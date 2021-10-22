@@ -18,6 +18,31 @@ $bodyColor = 'bg-white';
 include 'templates/users/header.php';
 include 'templates/users/navbar.php';
 ?>
+
+<?php
+$currentURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ?
+  "https" : "http") . "://" . $_SERVER['HTTP_HOST'] .
+  $_SERVER['REQUEST_URI'];
+$url = substr($currentURL, strrpos($currentURL, '?') + 1);
+if ($url == "joined=true") {
+  echo '<div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close close" data-dismiss="alert"></button>
+        <strong>Congratulations</strong> You joined the event.
+      </div>';
+} else if ($url == "joined=false") {
+  echo '<div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close close" data-dismiss="alert"></button>
+        <strong>Someting went wrong</strong> Please try again later.
+      </div>';
+}
+
+// <!-- error show messae -->
+
+if (isset($error)) {
+  echo '<div class="alert alert-danger">' . $error . '</div>';
+}
+
+?>
 <div class="container mt-4">
     <div class="row">
         <?php

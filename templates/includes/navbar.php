@@ -23,7 +23,7 @@
                     </form>
                 </li>
                 <li class="nav-item">
-                    <a class=<?php echo "nav-link " ?> href='home'><i class="fas fa-home"></i> Home
+                    <a class=<?php echo "nav-link " ?> href='/'><i class="fas fa-home"></i> Home
                         <span class="visually-hidden">(current)</span>
                     </a>
                 </li>
@@ -32,35 +32,21 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href='about'><i class="fas fa-info"></i> About</a>
+                    <a class="nav-link" href='https://vishalcodes.tech/'><i class="fas fa-info"></i> About</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href='contact'><i class="fas fa-id-card"></i> Contact us</a>
                 </li>
                 <li class="nav-item dropdown">
                     <?php 
-                    if(isset($_SESSION['isLoggedIn'])){
-                        echo '<a class="nav-link dropdown-toggle user-account-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle"></i> Account</a>
-                        <div class="dropdown-menu dropdown-menu-left">
-                            <a class="dropdown-item dropdown-item-or" href="dashboard">Hello</a>
-                            <a class="dropdown-item dropdown-item-or" href="register">Sign up</a>
-                            <!-- <a class="dropdown-item dropdown-item-or" href="#">Something</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item dropdown-item-or" href="../../event-manager/admin/logout.php">Log out</a> -->
-
-                        </div>';
-                    }
-                    else{
+                    
                         echo '<a class="nav-link dropdown-toggle user-account-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle"></i> Account</a>
                         <div class="dropdown-menu dropdown-menu-left">
                             <a class="dropdown-item dropdown-item-or" href="login">Log in</a>
-                            <a class="dropdown-item dropdown-item-or" href="register">Sign up</a>
-                            <!-- <a class="dropdown-item dropdown-item-or" href="#">Something</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item dropdown-item-or" href="../../event-manager/admin/logout.php">Log out</a> -->
+                            <a class="dropdown-item dropdown-item-or" href="signup">Sign up</a>
 
                         </div>';
-                    }
+                   
                     ?>
                             <style>
                                 .user-account-toggle::after {

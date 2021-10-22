@@ -92,7 +92,7 @@
                 <h3 class="nav__subtitle">Events</h3>
 
             </div>
-            <a href="index.php" class="nav__links">
+            <a href="/" class="nav__links">
                 <i class='bx bx-compass nav__box_icons'></i>
                 <span class="nav__name">Explore</span>
             </a>

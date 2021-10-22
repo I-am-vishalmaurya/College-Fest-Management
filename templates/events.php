@@ -23,8 +23,8 @@ include 'templates/includes/navbar.php';
         <?php 
         while($row = mysqli_fetch_assoc($subevents)){
             ?>
-            <div class="col-md-4 ">
-                <div class="card mb-4 shadow-sm h-100">
+            <div class="col-md-4">
+                <div class="card" style="margin-bottom: 10px;">
                     <img class="card-img-top" src="<?php echo $row['THUMBNAIL']; ?>" alt="Card image cap">
                     <div class="card-body">
                         <h4 class="card-text"><?php echo $row['SUB_EVENT_NAME']; ?></h4>

@@ -3,12 +3,15 @@
 $message = null;
 $errors = null;
 $eventManager = new EventManager();
+$orgmanager = new OrganizationManager();
 $filterTags = $eventManager->getTags();
+$head_id = $data['id'];
 try {
-    $subevents = $eventManager->getSubEventDetails();
+    $subevents = $eventManager->showSubeventToHeads($head_id);
 } catch (Exception $e) {
     $errors = $e->getMessage();
 }
+
 
 ?>
 

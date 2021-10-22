@@ -129,6 +129,17 @@ class EventManager
             throw new Exception("Error: " . mysqli_error($this->db));
         }
     }
+
+    public function subEventsDetailsCategory($limit = null, $category=null)
+    {
+        $query = "SELECT * FROM `subevents` WHERE CATEGORY = $category LIMIT $limit";
+        $result = $this->db->query($query);
+        if ($result) {
+            return $result;
+        } else {
+            throw new Exception("Error: " . mysqli_error($this->db));
+        }
+    }
     public function getEventBasedOnHeadID($headID){
         $query = "SELECT `EVENT_ID` FROM `events` WHERE `EVENT_HEAD_ID` = '$headID'";
         $result = $this->db->query($query);
@@ -211,8 +222,15 @@ class EventManager
         }
     }
 
-    public function getSubEventHeads($organization, $heademail, $eventName)
+    public function showSubeventToHeads($headID)
     {
+        $query = "SELECT * FROM `subevents` WHERE `SUB_EVENT_HEAD` = '$headID'";
+        if ($result = $this->db->query($query)) {
+            return $result;
+        } else {
+            throw new Exception("Error: " . $this->db->error);
+        }
+    
     }
 
     public function getHeadInfoOnSubEventID($sub_event_head_id){

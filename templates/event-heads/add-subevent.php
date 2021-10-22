@@ -21,35 +21,41 @@ include 'templates/event-heads/navbar.php';
 ?>
 
 <?php
-$currentURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ?
-    "https" : "http") . "://" . $_SERVER['HTTP_HOST'] .
-    $_SERVER['REQUEST_URI'];
-$url = substr($currentURL, strrpos($currentURL, '?') + 1);
-if ($url == "eventAddedSuccessfully") {
-    echo '<div class="alert alert-dismissible alert-success">
-        <button type="button" class="btn-close close" data-dismiss="alert"></button>
-        <strong>Your Event is live now.</strong> Add sub event for your event here.
-      </div>';
-}
-if (isset($message)) {
-    echo '<div class="alert alert-danger">' . $message . '</div>';
-}
-if (isset($error)) {
-    echo '<div class="alert alert-danger">' . $error . '</div>';
-}
 // Get the Sub Event Heads working under Head Organization
 try {
     $org_id = $orgManager->getOrganizationIDHelper($headID);
     $organizationid = mysqli_fetch_assoc($org_id);
     $org_id = $organizationid['ORG_ID'];
     $members = $orgManager->getMemberOfOrganization($org_id);
-    echo $org_id;
 } catch (Exception $e) {
-    echo $MemberError = $e->getMessage();
+    $MemberError = $e->getMessage();
 }
 ?>
 
+<?php
+$currentURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ?
+  "https" : "http") . "://" . $_SERVER['HTTP_HOST'] .
+  $_SERVER['REQUEST_URI'];
+$url = substr($currentURL, strrpos($currentURL, '?') + 1);
+if ($url == "addedSuccessfully") {
+  echo '<div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close close" data-dismiss="alert"></button>
+        <strong>Congratulations</strong> Your Sub-event is live now.
+      </div>';
+} else if ($url == "errorOccured") {
+  echo '<div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close close" data-dismiss="alert"></button>
+        <strong>Someting went wrong</strong> Please try again later.
+      </div>';
+}
 
+// <!-- error show messae -->
+
+if (isset($error)) {
+  echo '<div class="alert alert-danger">' . $error . '</div>';
+}
+
+?>
 <div class="container-fluid  p-4">
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

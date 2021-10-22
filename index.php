@@ -9,25 +9,29 @@ use App\Handler\Contact;
 use App\Router;
 
 $router = new Router();
-
 $router->get("/", function () {
-    require_once 'templates/home.php';
+    require_once 'Modules/includes/db.php';
+    require_once 'Modules/Auth/LoginManager.php';
+    require_once 'Modules/Events/EventManager.php';
+    require_once 'templates/home.php';    
 });
 $router->get("/events", function () {
     include 'Modules/includes/db.php';
     include 'Modules/Auth/LoginManager.php';
     include 'Modules/Events/EventManager.php';
-
     require_once 'templates/events.php';
 });
 
 $router->get("/about", function (array $params = []) {
-    echo "About Page";
     if (!empty($params['username'])) {
         echo '<h1> Hello' . $params['username'] . '</h1>';
     } else {
         echo "Hello";
     }
+});
+
+$router->get("/contact", function (array $params = []) {
+    include 'templates/contact.php';
 });
 // ************************* Start User Functionality *********************************
 // User Login Routing
@@ -204,6 +208,10 @@ $router->post('/head-login', function () {
 $router->get('/event-head', function () {
     $data = json_decode($_COOKIE['headUser'], true);
     if (isset($data['id']) && !empty(isset($data['id']))) {
+        require_once 'Modules/includes/db.php';
+        require_once 'Modules/Auth/LoginManager.php';
+        require_once 'Modules/Events/EventManager.php';
+        require_once 'Modules/Events/SubEvents.php';
         require_once 'templates/event-heads/event-head.php';
     } else {
         header("location: /head-login");
@@ -288,6 +296,7 @@ $router->get('/show-event', function () {
         include 'Modules/includes/db.php';
         include 'Modules/Auth/LoginManager.php';
         include 'Modules/Events/EventManager.php';
+        include 'Modules/Organization/OrganizationManager.php';
         include 'templates/event-heads/show-event.php';
     } else {
         header("location: /head-login");
