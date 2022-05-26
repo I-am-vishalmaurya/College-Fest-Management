@@ -55,9 +55,9 @@
                             $i = 0;
                             
                             if(isset($orgDetails)){
-                                for($i = 0; $i < count($orgDetails); $i++) {
+                                for($i = 1; $i < count($orgDetails); $i++) {
                                     echo '<tr>';
-                                    echo '<th scope="row">' . $i + 1 . '</th>';
+                                    echo '<th scope="row">' . $i . '</th>';
                                     echo '<td>' . $orgDetails[$i]['EH_NAME'] . '</td>';
                                     echo '<td>' . $orgDetails[$i]['EH_EMAIL'] . '</td>';
                                     echo '<td>' . $orgDetails[$i]['ORG_STATUS']. '</td>';

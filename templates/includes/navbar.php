@@ -43,7 +43,7 @@
                         echo '<a class="nav-link dropdown-toggle user-account-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle"></i> Account</a>
                         <div class="dropdown-menu dropdown-menu-left">
                             <a class="dropdown-item dropdown-item-or" href="login">Log in</a>
-                            <a class="dropdown-item dropdown-item-or" href="signup">Sign up</a>
+                            <a class="dropdown-item dropdown-item-or" href="register">Sign up</a>
 
                         </div>';
                    

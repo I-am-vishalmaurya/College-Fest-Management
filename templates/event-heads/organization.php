@@ -4,10 +4,12 @@ require_once 'Modules/includes/db.php';
 require_once 'Modules/Auth/LoginManager.php';
 $orgManager = new OrganizationManager();
 $headID = $data['id'];
-// The head will be thw admin of the organization
+global $orgHeadDetails;
+// The head will be the admin of the organization
 try {
     $result = $orgManager->getOrganizationHeadDetails($headID);
     if ($result) {
+        
         $orgHeadDetails = $result;
     } else {
         // The head is not an organization admin
@@ -21,16 +23,23 @@ try {
 } catch (Exception $e) {
     $errorWhileJoining = $e->getMessage();
 }
-try {
-    $details = $orgManager->getAllDetailsOfOrganizations($orgHeadDetails['ORG_ID']);
-    if ($details) {
-        $orgDetails = $details;
-    } else {
-        $orgDetails = null;
-    }
-} catch (Exception $e) {
-    $infoMemberofOrganization = $e->getMessage();
+if(is_null($orgHeadDetails)){
+    $orgDetails = null;
 }
+else{
+   
+    try {
+        $details = $orgManager->getAllDetailsOfOrganizations($orgHeadDetails['ORG_ID']);
+        if ($details) {
+            $orgDetails = $details;
+        } else {
+            $orgDetails = null;
+        }
+    } catch (Exception $e) {
+        $infoMemberofOrganization = $e->getMessage();
+    }
+}
+
 
 $title = "Organization - Eventers";
 $bodyColor = 'bg-white';
@@ -39,23 +48,30 @@ include 'templates/event-heads/navbar.php';
 ?>
 
 <?php
-if ($headID === $orgHeadDetails['ORG_ADMIN_ID']) {
-    include 'templates/event-heads/organizations/organization-invites.php';
-    
-} else {
-    if ($orgHeadDetails['ORG_STATUS'] === 'ADMIN') {
-        include 'templates/event-heads/organizations/organization-invites.php';
-    } else if ($orgHeadDetails['ORG_STATUS'] === 'JOINED') {
-        include 'templates/event-heads/organizations/organization-joined.php';
-    } else if ($orgHeadDetails['ORG_STATUS'] === 'PENDING') {
-        $org_id = $orgHeadDetails['ORG_ID'];    
-        $pendingResult = $orgManager->showDetailsToInvitedHead($org_id);
-        $org_name = ($pendingResult['ORG_NAME']);
-        $org_Admin_name = $pendingResult['EH_NAME'];
-        include 'templates/event-heads/organizations/organization-pending.php';
-    } else {
-        include 'templates\event-heads\organizations\organization-null.php';
+    if(is_null($orgHeadDetails)){
+        include 'templates/event-heads/organizations/organization-null.php';  
     }
+    else{
+        if ($headID === $orgHeadDetails['ORG_ADMIN_ID']) {
+            include 'templates/event-heads/organizations/organization-invites.php';
+            
+        } else {
+            
+                if ($orgHeadDetails['ORG_STATUS'] === 'ADMIN') {
+                    include 'templates/event-heads/organizations/organization-invites.php';
+                } else if ($orgHeadDetails['ORG_STATUS'] === 'JOINED') {
+                    include 'templates/event-heads/organizations/organization-joined.php';
+                } else if ($orgHeadDetails['ORG_STATUS'] === 'PENDING') {
+                    $org_id = $orgHeadDetails['ORG_ID'];    
+                    $pendingResult = $orgManager->showDetailsToInvitedHead($org_id);
+                    $org_name = ($pendingResult['ORG_NAME']);
+                    $org_Admin_name = $pendingResult['EH_NAME'];
+                    include 'templates/event-heads/organizations/organization-pending.php';
+            
+    }
+
+}
+
 }
 ?>
 
