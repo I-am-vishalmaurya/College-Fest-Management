@@ -2,9 +2,9 @@
     class eventManagerDB extends mysqli{
         private static $instance = null; 
         private $user = "root";
-        private $password = "3112";
+        private $password = "";
         private $dbName = "optimizedeventmanager";
-        private $dbHost = "localhost";
+        private $dbHost = "127.0.0.1"; # Change it to localhost ot 127.0.0.1 accordingly
 
         public static function getInstance(){
             if(!self::$instance instanceof self){
