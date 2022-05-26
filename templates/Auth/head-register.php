@@ -1,5 +1,5 @@
 
-        <!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -29,10 +29,13 @@
                                     Create an head account.
                                 </h1>
                                 <!-- error show messae -->
+                                
                                 <?php if(isset($message)){echo '<div class="alert alert-danger">'.$message.'</div>';}
                                 if(isset($error)){
                                     echo '<div class="alert alert-danger">'.$error.'</div>';
                                 } ?>
+
+
                             </div>
                             <form method="POST">
                                 <div class="row form-group mb-3">

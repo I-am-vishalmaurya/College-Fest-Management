@@ -32,14 +32,17 @@
             $email = $this->db->real_escape_string($email);
             $password = $this->db->real_escape_string($password);
             $confirmpassword = $this->db->real_escape_string($confirmpassword);
-            if($password === $confirmpassword){
-                $password = md5($password);
+            $password = md5($password);
+            try{
                 $result = $this->db->query("INSERT INTO event_heads (EH_NAME, EH_EMAIL, EH_PASSWORD) VALUES ('$name', '$email', '$password')");
                 return $result;
             }
-            else{
-                return false;
+            catch(Exception $e){
+                echo $e;
+               return false;
+            
             }
+            
         }
 
         public function userEmailExist($email){
