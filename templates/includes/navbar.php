@@ -32,7 +32,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href='https://vishalcodes.tech/'><i class="fas fa-info"></i> About</a>
+                    <a class="nav-link" href='https://pythonicnerds.me/'><i class="fas fa-info"></i> Blog</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href='contact'><i class="fas fa-id-card"></i> Contact us</a>
