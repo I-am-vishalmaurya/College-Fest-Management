@@ -82,16 +82,8 @@ class EventManager
         }
     }
 
-    public function addSubEvents(
-        $event_id,
-        $sub_event_name,
-        $category,
-        $subEventHeadID,
-        $sub_event_description,
-        $thumbnailDestination,
-        $sub_event_datetime,
-        $sub_event_location,
-    ) {
+    public function addSubEvents($event_id, $sub_event_name, $category, $subEventHeadID, $sub_event_description, $thumbnailDestination, $sub_event_datetime, $sub_event_location)
+    {
         $query = "INSERT INTO `subevents`(`EVENT_ID`, `SUB_EVENT_NAME`, `CATEGORY`,`SUB_EVENT_HEAD`,`SUB_EVENT_DESCRIPTION`, `THUMBNAIL`, `SUB_EVENT_DATE`, `SUB_EVENT_LOCATION`) VALUES (
             '$event_id',
             '$sub_event_name',
@@ -117,6 +109,7 @@ class EventManager
                 // $subEventLocation
             );
         }
+    
     }
 
     public function getSubEventDetails()
